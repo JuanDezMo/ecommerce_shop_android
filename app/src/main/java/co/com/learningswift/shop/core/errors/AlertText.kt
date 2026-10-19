@@ -11,6 +11,12 @@ object AlertText {
         const val CANCEL = "Cancel"
     }
 
+    object AccountCreated {
+        const val TITLE = "Account created"
+        const val MESSAGE = "You can now log in with your email."
+        const val LOGIN = "Log in"
+    }
+
     object Snackbar {
         const val ADDED_TO_CART = "Added to cart"
         const val CART_UPDATED = "Your cart was updated to match available stock."

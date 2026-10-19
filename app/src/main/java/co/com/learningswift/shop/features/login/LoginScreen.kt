@@ -89,6 +89,7 @@ fun LoginContent(
                     keyboardType = KeyboardType.Email,
                     capitalization = KeyboardCapitalization.None,
                     imeAction = ImeAction.Next,
+                    autoCorrectEnabled = false,
                 ),
                 modifier = Modifier.fillMaxWidth().testTag(TestTags.Login.EMAIL_INPUT),
             )

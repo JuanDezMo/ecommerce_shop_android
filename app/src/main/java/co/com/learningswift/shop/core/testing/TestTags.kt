@@ -24,6 +24,30 @@ object TestTags {
         const val ERROR_TEXT = "login_error_text"
     }
 
+    object Register {
+        const val FIRSTNAME_INPUT = "register_firstname_input"
+        const val LASTNAME_INPUT = "register_lastname_input"
+        const val EMAIL_INPUT = "register_email_input"
+        const val PASSWORD_INPUT = "register_password_input"
+        const val PHONE_INPUT = "register_phone_input"
+        const val BIRTHDATE_DAY_DROPDOWN = "register_birthdate_day_dropdown"
+        const val BIRTHDATE_MONTH_DROPDOWN = "register_birthdate_month_dropdown"
+        const val BIRTHDATE_YEAR_DROPDOWN = "register_birthdate_year_dropdown"
+        const val COUNTRY_DROPDOWN = "register_country_dropdown"
+        const val PLAN_SEGMENTED = "register_plan_segmented"
+        const val EXPERIENCE_SLIDER = "register_experience_slider"
+        const val NEWSLETTER_SWITCH = "register_newsletter_switch"
+        const val TERMS_CHECKBOX = "register_terms_checkbox"
+        const val NEXT_BUTTON = "register_next_button"
+        const val SUBMIT_BUTTON = "register_submit_button"
+        const val ERROR_SUMMARY_TEXT = "register_error_summary_text"
+        const val LOGIN_LINK = "register_login_link"
+        const val SUCCESS_ALERT_LOGIN_BUTTON = "register_success_alert_login_button"
+
+        /** Error bajo un campo: `register_<campo>_error_text` (solo existe mientras el error se ve) */
+        fun error(tagSuffix: String) = "register_${tagSuffix}_error_text"
+    }
+
     object Account {
         const val THEME_SEGMENTED = "account_theme_segmented"
     }

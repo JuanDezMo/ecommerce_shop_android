@@ -1,6 +1,6 @@
 # Plan de iteraciones · App Android ShopLab
 
-Actualizado: 2026-10-19 · **Estado: aprobado. A0, A2 y A3 hechas; siguiente: A4.**
+Actualizado: 2026-10-19 · **Estado: aprobado. A0, A2, A3 y A4 hechas; siguiente: A5.**
 
 Plan de implementación de la app Android, iteración por iteración, para que cualquier desarrollador (también de perfil junior) pueda ejecutarlo sin conocer las conversaciones previas. Es el equivalente del [plan de iOS](../../ecommerce_shop_ios/docs/plan-iteraciones-ios.md), **recortado a lo que Android realmente necesita**: el comportamiento, los IDs, los tests y los flujos de Maestro ya existen y se reutilizan.
 
@@ -271,11 +271,11 @@ El proyecto base (`/Users/juandezmo/Documents/claude_projects/ecommerce_shop_and
 
 ### Actividades
 
-- [ ] `RegisterValidator` con las **reglas de iOS ya endurecidas** (Comportamiento §5.1): nombres y apellidos de 10 a 30 letras A-Z/a-z con un solo espacio entre palabras (se recortan los extremos); email de 8 a 20 caracteres con solo letras, números, `@` y puntos del dominio; teléfono obligatorio `+` más 3 dígitos de prefijo y 10 dígitos; contraseña de 10 a 20 caracteres ASCII con mayúscula, minúscula, número y especial; edad con año, mes y día de la fecha elegida contra hoy **en UTC**; país y términos obligatorios.
-- [ ] Patrón de formulario (Arquitectura §8.2): botón siempre habilitado, resumen "N fields need attention", desplazamiento al primer error, revalidación al perder el foco, el error desaparece al editar.
-- [ ] Compartir el ViewModel entre las dos pantallas: con Navigation Compose, **crearlo con el `NavBackStackEntry` del grafo padre** (`navController.getBackStackEntry("register_graph")`); así sobrevive a la flecha atrás.
-- [ ] Errores del backend: `EMAIL_ALREADY_EXISTS` → email (y vuelve al paso 1), `UNDERAGE_USER` → fecha, `TERMS_NOT_ACCEPTED` → términos, `VALIDATION_ERROR` → `FieldErrorMapper` como red de seguridad.
-- [ ] Alerta "Account created" con "Log in", que vuelve al login con el email escrito.
+- [x] `RegisterValidator` con las **reglas de iOS ya endurecidas** (Comportamiento §5.1): nombres y apellidos de 10 a 30 letras A-Z/a-z con un solo espacio entre palabras (se recortan los extremos); email de 8 a 20 caracteres con solo letras, números, `@` y puntos del dominio; teléfono obligatorio `+` más 3 dígitos de prefijo y 10 dígitos; contraseña de 10 a 20 caracteres ASCII con mayúscula, minúscula, número y especial; edad con año, mes y día de la fecha elegida contra hoy **en UTC**; país y términos obligatorios.
+- [x] Patrón de formulario (Arquitectura §8.2): botón siempre habilitado, resumen "N fields need attention", desplazamiento al primer error, revalidación al perder el foco, el error desaparece al editar.
+- [x] Compartir el ViewModel entre las dos pantallas: con Navigation Compose, **crearlo con el `NavBackStackEntry` del grafo padre** (`navController.getBackStackEntry("register_graph")`); así sobrevive a la flecha atrás.
+- [x] Errores del backend: `EMAIL_ALREADY_EXISTS` → email (y vuelve al paso 1), `UNDERAGE_USER` → fecha, `TERMS_NOT_ACCEPTED` → términos, `VALIDATION_ERROR` → `FieldErrorMapper` como red de seguridad.
+- [x] Alerta "Account created" con "Log in", que vuelve al login con el email escrito.
 
 ### Tests
 
@@ -287,11 +287,14 @@ El proyecto base (`/Users/juandezmo/Documents/claude_projects/ecommerce_shop_and
 
 - El día de la fecha baja al último del mes al cambiar mes o año (`BirthDateOptions`).
 - **Autorrelleno de contraseñas** del emulador: apagarlo para las pruebas de interfaz.
-- El teclado numérico del teléfono no tiene tecla de retorno: el botón "Next" debe quedar visible sobre él.
+- El teclado numérico del teléfono no tiene tecla de retorno y tapa el botón "Next": se usa `ImeAction.Done` (su ✓ cierra el teclado) y `imePadding` + scroll.
+- El teclado del emulador **autocorrige** nombres y correos: `autoCorrectEnabled = false` en los campos de texto.
+- Con el teclado abierto los campos de abajo quedan tapados: en las pruebas de interfaz cerrar el teclado entre campos.
+- La casilla se ve en `uiautomator` como `checkable`/`checked` (no se ve `stateDescription`): en Maestro usar `checked: true`.
 
 ### Criterios de aceptación
 
-- [ ] Se crea una cuenta contra el backend real, con todos los errores en claro y oscuro y con el teclado abierto.
+- [x] Se crea una cuenta contra el backend real, con todos los errores en claro y oscuro y con el teclado abierto.
 
 ---
 

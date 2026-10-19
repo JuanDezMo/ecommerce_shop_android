@@ -4,6 +4,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.lifecycle.viewmodel.initializer
 import co.com.learningswift.shop.features.account.AccountViewModel
 import co.com.learningswift.shop.features.login.LoginViewModel
+import co.com.learningswift.shop.features.register.RegisterViewModel
 
 /** Cada pantalla recibe SU ViewModel (no el contenedor): la fábrica saca de él lo que necesita. Todas aquí, en un solo archivo */
 fun accountViewModelFactory(container: AppContainer) = viewModelFactory {
@@ -12,4 +13,8 @@ fun accountViewModelFactory(container: AppContainer) = viewModelFactory {
 
 fun loginViewModelFactory(container: AppContainer) = viewModelFactory {
     initializer { LoginViewModel(container.authRepository) }
+}
+
+fun registerViewModelFactory(container: AppContainer) = viewModelFactory {
+    initializer { RegisterViewModel(container.userRepository) }
 }

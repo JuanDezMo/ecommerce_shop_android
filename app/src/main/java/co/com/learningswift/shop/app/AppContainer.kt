@@ -7,6 +7,7 @@ import co.com.learningswift.shop.data.local.KeyValueStore
 import co.com.learningswift.shop.data.repository.AuthRepository
 import co.com.learningswift.shop.data.repository.ProductRepository
 import co.com.learningswift.shop.data.repository.SettingsRepository
+import co.com.learningswift.shop.data.repository.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -36,5 +37,6 @@ class AppContainer(
     /** Para datos sensibles (por ejemplo, un token persistido): cifrado. Se crea al usarlo por primera vez, no al arrancar */
     val secureStore: KeyValueStore by lazy(secureStoreProvider)
     val authRepository = AuthRepository(api, session)
+    val userRepository = UserRepository(api)
     val productRepository = ProductRepository(api)
 }
