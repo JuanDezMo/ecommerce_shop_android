@@ -12,12 +12,17 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import co.com.learningswift.shop.core.errors.AlertText
 import co.com.learningswift.shop.core.errors.AppError
 import co.com.learningswift.shop.core.testing.TestTags
+import co.com.learningswift.shop.data.repository.ThemeMode
 
 /** Indicador de carga a pantalla completa. Se usa dentro de un `if`: solo existe mientras carga */
 @Composable
@@ -46,10 +51,13 @@ fun MessageBanner(text: String, modifier: Modifier = Modifier, isError: Boolean 
  * Alerta "Something went wrong" con "Try again" y "Cancel". Cada ViewModel expone `genericError: AppError?`;
  * qué hace `onRetry` lo decide cada pantalla (Arquitectura §8.5).
  */
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun GenericErrorDialog(error: AppError, onRetry: () -> Unit, onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
+        // El diálogo es otra ventana: testTagsAsResourceId de la raíz no llega hasta aquí y hay que repetirlo
+        modifier = Modifier.semantics { testTagsAsResourceId = true },
         title = { Text(AlertText.GenericError.TITLE) },
         text = { Text(error.userMessage) },
         confirmButton = {
@@ -72,3 +80,19 @@ fun PlaceholderScreen(title: String) {
         Text(title, style = MaterialTheme.typography.headlineMedium, color = MaterialTheme.colorScheme.onBackground)
     }
 }
+
+@Preview(name = "Loading claro")
+@Composable
+private fun LoadingOverlayLightPreview() = ShopTheme(ThemeMode.LIGHT) { LoadingOverlay() }
+
+@Preview(name = "Loading oscuro")
+@Composable
+private fun LoadingOverlayDarkPreview() = ShopTheme(ThemeMode.DARK) { LoadingOverlay() }
+
+@Preview(name = "Alerta clara")
+@Composable
+private fun GenericErrorDialogLightPreview() = ShopTheme(ThemeMode.LIGHT) { GenericErrorDialog(AppError.Network, {}, {}) }
+
+@Preview(name = "Alerta oscura")
+@Composable
+private fun GenericErrorDialogDarkPreview() = ShopTheme(ThemeMode.DARK) { GenericErrorDialog(AppError.Network, {}, {}) }

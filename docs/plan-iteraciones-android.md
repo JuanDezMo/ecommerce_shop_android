@@ -1,6 +1,6 @@
 # Plan de iteraciones · App Android ShopLab
 
-Actualizado: 2026-10-19 · **Estado: aprobado. A0 hecha; siguiente: A2.**
+Actualizado: 2026-10-19 · **Estado: aprobado. A0, A2 y A3 hechas; siguiente: A4.**
 
 Plan de implementación de la app Android, iteración por iteración, para que cualquier desarrollador (también de perfil junior) pueda ejecutarlo sin conocer las conversaciones previas. Es el equivalente del [plan de iOS](../../ecommerce_shop_ios/docs/plan-iteraciones-ios.md), **recortado a lo que Android realmente necesita**: el comportamiento, los IDs, los tests y los flujos de Maestro ya existen y se reutilizan.
 
@@ -193,13 +193,13 @@ El proyecto base (`/Users/juandezmo/Documents/claude_projects/ecommerce_shop_and
 
 ### Tests
 
-- [ ] `SnackbarCenterTest` con `runTest` y tiempo virtual: aparece, desaparece a los 3 s, y un mensaje nuevo reinicia el tiempo (como `SnackbarCenterTests` de iOS).
-- [ ] `session.start()` / `end()` / `expire()` cambian lo que muestra la raíz (prueba de composición o de estado).
+- [x] `SnackbarCenterTest` con `runTest` y tiempo virtual: aparece, desaparece a los 3 s, y un mensaje nuevo reinicia el tiempo (como `SnackbarCenterTests` de iOS).
+- [x] `session.start()` / `end()` / `expire()` cambian lo que muestra la raíz (prueba de composición o de estado).
 
 ### Criterios de aceptación
 
-- [ ] Iniciar y cerrar sesión (desde un botón provisional de depuración) cambia entre login y pestañas.
-- [ ] Un snackbar de prueba aparece sobre la barra de pestañas y se ve en claro y oscuro.
+- [x] Iniciar y cerrar sesión (desde un botón provisional de depuración) cambia entre login y pestañas.
+- [x] Un snackbar de prueba aparece sobre la barra de pestañas y se ve en claro y oscuro.
 
 ---
 
@@ -224,26 +224,27 @@ El proyecto base (`/Users/juandezmo/Documents/claude_projects/ecommerce_shop_and
 
 ### Actividades
 
-- [ ] `LoginViewModel`: errores en línea solo para `INVALID_CREDENTIALS` y `USER_LOCKED`; cualquier otro, alerta genérica con "Try again" → `login()`. Vaciar el email borra el mensaje.
-- [ ] `LoginScreen`: aviso de sesión expirada (`login_session_expired_text`), botón "Log in" (deshabilitado con campos vacíos) y "Create account".
+- [x] `LoginViewModel`: errores en línea solo para `INVALID_CREDENTIALS` y `USER_LOCKED`; cualquier otro, alerta genérica con "Try again" → `login()`. Vaciar el email borra el mensaje.
+- [x] `LoginScreen`: aviso de sesión expirada (`login_session_expired_text`), botón "Log in" (deshabilitado con campos vacíos) y "Create account".
 
 ### Tests
 
 **Integración (`LoginIntegrationTest`, con el backend real)**
 
-- [ ] `standard@shoplab.dev` / `Secret_123` → sesión iniciada; contraseña errónea → "The email or password is incorrect."; `locked@shoplab.dev` → mensaje de cuenta bloqueada.
-- [ ] Email con espacios y mayúsculas se normaliza.
-- [ ] `force503@shoplab.dev` → `genericError` con el mensaje del servidor.
-- [ ] Token expirado (`POST /api/v1/test/tokens/expired`) → `session.expire()` y la raíz muestra el aviso.
+- [x] `standard@shoplab.dev` / `Secret_123` → sesión iniciada; contraseña errónea → "The email or password is incorrect."; `locked@shoplab.dev` → mensaje de cuenta bloqueada.
+- [x] Email con espacios y mayúsculas se normaliza.
+- [x] `force503@shoplab.dev` → `genericError` con el mensaje del servidor.
+- [x] Token expirado (`POST /api/v1/test/tokens/expired`) → `session.expire()` y la raíz muestra el aviso.
 
 ### Trampas conocidas
 
+- **Android 17 y la red local:** sin el permiso `ACCESS_LOCAL_NETWORK` (solo debug) el login se agota. Ver README.
 - El botón debe poder pulsarse con el teclado abierto: `imePadding()` y `verticalScroll`.
 - Aplicar `Modifier.testTag` al `OutlinedTextField`, no a un contenedor.
 
 ### Criterios de aceptación
 
-- [ ] Login correcto lleva a las pestañas; errores y alerta genérica funcionan en el emulador, en claro y oscuro.
+- [x] Login correcto lleva a las pestañas; errores y alerta genérica funcionan en el emulador, en claro y oscuro.
 
 ---
 
@@ -467,11 +468,12 @@ El proyecto base (`/Users/juandezmo/Documents/claude_projects/ecommerce_shop_and
 **Maestro (reutilizando la carpeta de iOS)**
 
 - [ ] Parametrizar `appId` (variable de entorno en `run.sh`) y ajustar solo lo específico de Android: cómo se baja el teclado y cómo se toca el selector de cantidad (`add_to_cart_quantity_stepper-Increment`).
+- [ ] Conceder el permiso de red local antes de cada flujo (`adb shell pm grant co.com.learningswift.shop android.permission.ACCESS_LOCAL_NETWORK` en `run.sh`, o `launchApp: permissions`), porque el diálogo del sistema taparía la app.
 - [ ] Ejecutar los flujos `00` a `09` en un emulador API 34 y en uno actual, en claro y oscuro.
 
 **Verificaciones propias de Android**
 
-- [ ] Los IDs de los botones de un `AlertDialog` llegan a Maestro/Appium (`resource-id`). Si no, repetir `testTagsAsResourceId` dentro del diálogo; si aun así no llegan, localizar las alertas por texto.
+- [x] Los IDs de los botones de un `AlertDialog` llegan a `resource-id`: **verificado en la A2** (hizo falta `Modifier.semantics { testTagsAsResourceId = true }` en el `modifier` del `AlertDialog`). Queda confirmarlo con Maestro. Si no, repetir `testTagsAsResourceId` dentro del diálogo; si aun así no llegan, localizar las alertas por texto.
 - [ ] El ID de las pestañas (`NavigationBarItem`) llega al árbol.
 - [ ] La casilla (`stateDescription`) y los desplegables se ven en `maestro hierarchy`.
 
@@ -494,7 +496,7 @@ El proyecto base (`/Users/juandezmo/Documents/claude_projects/ecommerce_shop_and
 | --- | --- |
 | Una versión de AGP/Kotlin/Compose nueva rompe la compilación | Subir una pieza cada vez, en el orden del README, y compilar y probar tras cada cambio |
 | El comportamiento cambia en un repositorio y no en el otro | Un solo documento de comportamiento; se copia el mismo día |
-| Los IDs no llegan en los `AlertDialog` | Verificación de la A9; plan B: localizar por texto |
+| Los IDs no llegan en los `AlertDialog` | Resuelto en la A2 con `testTagsAsResourceId` en el `modifier` del diálogo; confirmar con Maestro en la A9 |
 | El APK de release falla por R8 | Reglas en A9 y una ejecución real antes de publicar |
 | Iteraciones demasiado grandes (A4, A5, A7) | Partirlas en dos *changes* (por ejemplo, A5 en imágenes+catálogo y en carrito-reglas), sin cambiar el orden |
 | Se cuela un `catch (e: Exception)` | Revisión de código y la lista de la Arquitectura §15 |

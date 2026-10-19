@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Solo en debug: permite HTTP sin TLS hacia el backend local. El build release no lo incluye -->
+    <!-- Android 17 (API 37) exige este permiso para hablar con direcciones de red local como 10.0.2.2. Solo en debug:
+         en release el backend es público (HTTPS) y no hace falta -->
+    <uses-permission android:name="android.permission.ACCESS_LOCAL_NETWORK" />
+
     <application android:networkSecurityConfig="@xml/network_security_config" />
 </manifest>

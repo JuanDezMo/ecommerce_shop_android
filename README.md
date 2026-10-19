@@ -32,6 +32,8 @@ Requisitos: JDK 21 (sirve cualquier JDK 17+), Android SDK (compileSdk 37) y, par
 
 Abrir el proyecto en **Android Studio** (carpeta raíz). La app de debug usa `http://10.0.2.2:8080/api/v1/` (el backend de la Mac visto desde el emulador); el HTTP sin TLS solo se permite en `debug` y para hosts concretos (`app/src/debug/res/xml/network_security_config.xml`).
 
+**Android 17 (API 37) y la red local:** para hablar con `10.0.2.2` (o el `.local` de la Mac) la app necesita el permiso `ACCESS_LOCAL_NETWORK`; sin él, las peticiones terminan por tiempo agotado y la app muestra "Check your internet connection". Está declarado **solo en `debug`** (`app/src/debug/AndroidManifest.xml`) y `MainActivity` lo pide al abrir; si se rechaza: `adb shell pm grant co.com.learningswift.shop android.permission.ACCESS_LOCAL_NETWORK`. Las suites de Maestro deben concederlo antes de empezar (A9).
+
 ## Compatibilidad de versiones (comprobada el 2026-10-19)
 
 | Pieza | Versión | Por qué esta |

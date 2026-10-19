@@ -15,6 +15,15 @@ object TestTags {
         const val ERROR_ALERT_CANCEL_BUTTON = "app_error_alert_cancel_button"
     }
 
+    object Login {
+        const val EMAIL_INPUT = "login_email_input"
+        const val PASSWORD_INPUT = "login_password_input"
+        const val SUBMIT_BUTTON = "login_submit_button"
+        const val REGISTER_LINK = "login_register_link"
+        const val SESSION_EXPIRED_TEXT = "login_session_expired_text"
+        const val ERROR_TEXT = "login_error_text"
+    }
+
     object Account {
         const val THEME_SEGMENTED = "account_theme_segmented"
     }

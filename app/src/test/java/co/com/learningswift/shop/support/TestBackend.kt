@@ -17,6 +17,22 @@ object TestBackend {
         check(status == 204) { "El reset respondió $status" }
     }
 
+    /** Token ya vencido de un usuario semilla (POST /api/v1/test/tokens/expired), para probar la sesión expirada */
+    fun expiredToken(email: String): String {
+        val connection = URI("${BASE_URL}test/tokens/expired").toURL().openConnection() as HttpURLConnection
+        try {
+            connection.requestMethod = "POST"
+            connection.doOutput = true
+            connection.setRequestProperty("Content-Type", "application/json")
+            connection.outputStream.use { it.write("{\"email\": \"$email\"}".toByteArray()) }
+            check(connection.responseCode == 200) { "El token expirado respondió ${connection.responseCode}" }
+            val body = connection.inputStream.bufferedReader().readText()
+            return Regex("\"accessToken\"\\s*:\\s*\"([^\"]+)\"").find(body)!!.groupValues[1]
+        } finally {
+            connection.disconnect()
+        }
+    }
+
     private fun checkHealth() {
         val status = try { request("GET", "$HOST/actuator/health") } catch (e: Exception) { throw NotRunning() }
         if (status != 200) throw NotRunning()

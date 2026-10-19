@@ -665,7 +665,7 @@ Una **prueba unitaria compara `TestTags` con el catálogo** (el equivalente de `
 | Tema | Qué hacer |
 | --- | --- |
 | Contenedores (`catalog_item_<id>`, `cart_item_<id>`) | `Modifier.testTag(...)` en la fila **sin** `semantics(mergeDescendants = true)`; si se fusionan los hijos, sus IDs desaparecen del árbol |
-| Diálogos (`AlertDialog`) | Son una **ventana aparte**: hay que repetir `testTagsAsResourceId` dentro del contenido del diálogo; si no, los IDs de sus botones no llegan (a comprobar en la primera iteración con diálogos) |
+| Diálogos (`AlertDialog`) | Son una **ventana aparte**: hay que repetir `testTagsAsResourceId` en el `modifier` del `AlertDialog` (verificado en la A2); si no, los IDs de sus botones no llegan (a comprobar en la primera iteración con diálogos) |
 | Casilla de términos | `Modifier.semantics { stateDescription = if (checked) "checked" else "unchecked" }` |
 | Selector de cantidad | Se construye con dos botones con sus IDs propios (`add_to_cart_quantity_stepper` y sus `-Increment` / `-Decrement`, como los expone iOS) para que los flujos de Maestro sean iguales |
 | Menú de país | El campo con su ID y cada opción como texto visible (Maestro toca el texto) |
@@ -686,6 +686,8 @@ Como los IDs y los textos de las alertas son los mismos, los flujos de [`maestro
 | Dispositivo físico | `http://<nombre-de-la-mac>.local:8080/api/v1/` | Argumento de arranque (abajo) |
 
 **HTTP sin TLS** (solo desarrollo): `res/xml/network_security_config.xml` con `cleartextTrafficPermitted="true"` para `10.0.2.2` y el nombre local de la Mac, y declarado en el `AndroidManifest`. Nunca un `usesCleartextTraffic` general.
+
+**Android 17 (API 37):** conectar con direcciones de red local (`10.0.2.2`, el `.local` de la Mac) exige el permiso de ejecución `ACCESS_LOCAL_NETWORK`; sin él la conexión se agota (`ConnectTimeoutException`, que la app ve como error de red). Se declara solo en el manifiesto de `debug` y `MainActivity` lo pide al arrancar (verificado en la A3). En release no se declara: el backend es público y con HTTPS.
 
 **Argumentos de arranque (solo `debug`, con `BuildConfig.DEBUG`)**, los mismos que iOS pero como *extras* del `Intent`:
 
