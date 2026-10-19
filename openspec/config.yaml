@@ -1,0 +1,26 @@
+schema: spec-driven
+
+context: |
+  Escribe todos los artefactos de OpenSpec en español. Mantén en inglés los encabezados estructurales de OpenSpec y las palabras SHALL/MUST.
+  Idioma: código (tipos, funciones, variables) en inglés; textos de la UI y mensajes de error para el usuario en INGLÉS; comentarios del código y documentación en español.
+  Fuente de verdad de arquitectura: docs/shop-android-arquitectura.md (consultarla antes de proponer cambios, en especial §14 Decisiones y §15 Reglas).
+  Fuente de verdad funcional (común a iOS y Android): docs/comportamiento-apps-moviles.md. Define qué hace cada pantalla, validaciones, mensajes, alertas y límites. Un cambio de comportamiento se hace en un solo lugar y se copia al otro repositorio el mismo día.
+  Plan de implementación: docs/plan-iteraciones-android.md. Cada change corresponde a una iteración; su sección es la base de la propuesta. Los specs de la iteración equivalente de iOS (../ecommerce_shop_ios/openspec/specs/) son el punto de partida: se copian y se adaptan, no se reescriben.
+  Contrato con el backend: docs/guia-integracion-ios-android.md (copia de la del backend) y las specs de ../ecommerce_shop_api/openspec/specs/. Ante una contradicción, manda el backend; la app nunca pide cambios al backend.
+  IDs de accesibilidad y textos de alertas: docs/catalogo-ids-accesibilidad.md, compartido con iOS. Existe una copia idéntica en ../ecommerce_shop_api/catalogo-ids-accesibilidad.md: un ID o texto nuevo se agrega primero al catálogo, en todas las copias.
+  Stack: Kotlin 2.4, Jetpack Compose con Material 3 (versiones fijadas por el BOM), Ktor 3 (OkHttp + kotlinx.serialization) para el backend, minSdk 26 (debe funcionar en emulador API 34 y en las versiones actuales). Compatibilidad de versiones en el README; subir una pieza cada vez.
+  Capas: UI (Composable) -> ViewModel (StateFlow<UiState>) -> Repository (clase concreta, sin interfaz) -> ApiClient -> backend. Las pantallas nunca llaman a repositorios ni a ApiClient; los ViewModels nunca ven DTOs ni Ktor. DI manual con AppContainer.
+  Interfaces: solo cuando hay dos implementaciones reales (por ejemplo KeyValueStore). Sin Hilt, sin Room, sin mocks.
+  Errores para el usuario: siempre desde ErrorMessages por code del backend, nunca el message técnico del backend. CancellationException siempre se relanza; nunca catch (e: Exception) sin relanzarla.
+  JSON: montos en BigDecimal con BigDecimalSerializer, redondeados a centavos; nunca Double. Fechas y birthDate según el contrato.
+  Sesión: token solo en memoria (fase 1). Preferencias y carrito en KeyValueStore (SharedPreferences; cifrado con Tink + Android Keystore para lo sensible). Base URL por BuildConfig y por extra de arranque en debug.
+  IDs: Modifier.testTag con las constantes de TestTags; testTagsAsResourceId se activa una sola vez en la raíz.
+  Pruebas: sin mocks ni fakes. Unitarias JVM solo para lógica pura sin red; ViewModels y repositorios se prueban en JVM contra el backend real local (localhost:8080, docker compose, perfil testing) con POST /api/v1/test/reset antes de cada test. Instrumentadas solo para lo que necesita Android (Keystore, Compose). Flujos de UI con Maestro.
+  Público objetivo: perfil junior; priorizar código simple y legible sobre abstracciones.
+  Desarrollo TDD: test que falla -> código mínimo -> refactor.
+
+rules:
+  tasks:
+    - Cada tarea de implementación empieza por su test (unitario JVM sin red o de integración contra el backend real, según la capa)
+    - Cada tarea indica cómo verificarse con ./gradlew (:app:testDebugUnitTest, :app:assembleDebug o :app:lintDebug) y, si toca una pantalla, qué IDs del catálogo deben aparecer en maestro hierarchy
+    - Las tareas con tests de integración indican que requieren el backend levantado (docker compose up en ../ecommerce_shop_api)
