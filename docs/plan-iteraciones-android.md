@@ -1,6 +1,6 @@
 # Plan de iteraciones · App Android ShopLab
 
-Actualizado: 2026-10-19 · **Estado: aprobado. A0, A2, A3, A4, A5 y A6 hechas; siguiente: A7.**
+Actualizado: 2026-10-19 · **Estado: aprobado. A0, A2, A3, A4, A5, A6 y A7 hechas; siguiente: A8.**
 
 Plan de implementación de la app Android, iteración por iteración, para que cualquier desarrollador (también de perfil junior) pueda ejecutarlo sin conocer las conversaciones previas. Es el equivalente del [plan de iOS](../../ecommerce_shop_ios/docs/plan-iteraciones-ios.md), **recortado a lo que Android realmente necesita**: el comportamiento, los IDs, los tests y los flujos de Maestro ya existen y se reutilizan.
 
@@ -395,10 +395,10 @@ El proyecto base (`/Users/juandezmo/Documents/claude_projects/ecommerce_shop_and
 
 ### Actividades
 
-- [ ] `placeOrderTapped()` valida y abre "Place order?"; `placeOrder()` envía. **El carrito solo se vacía con el 201.**
-- [ ] Errores: `INSUFFICIENT_STOCK`, `PRODUCT_NOT_FOUND`, `EMPTY_ORDER`, `DUPLICATE_ORDER_ITEM` → "Can't place your order" con "Review cart"; `VALIDATION_ERROR` → campos (o el mensaje del carrito si no hay campo); otros → alerta genérica.
-- [ ] **"Try again" no reenvía:** reabre "Place order?" (el backend no es idempotente).
-- [ ] "Done" vacía la pila y cambia a Catalog, que se recarga con el stock.
+- [x] `placeOrderTapped()` valida y abre "Place order?"; `placeOrder()` envía. **El carrito solo se vacía con el 201.**
+- [x] Errores: `INSUFFICIENT_STOCK`, `PRODUCT_NOT_FOUND`, `EMPTY_ORDER`, `DUPLICATE_ORDER_ITEM` → "Can't place your order" con "Review cart"; `VALIDATION_ERROR` → campos (o el mensaje del carrito si no hay campo); otros → alerta genérica.
+- [x] **"Try again" no reenvía:** reabre "Place order?" (el backend no es idempotente).
+- [x] "Done" vacía la pila y cambia a Catalog, que se recarga con el stock.
 
 ### Tests
 
@@ -408,12 +408,15 @@ El proyecto base (`/Users/juandezmo/Documents/claude_projects/ecommerce_shop_and
 
 ### Trampas conocidas
 
+- Para probar "Can't place your order" en el emulador: el ajuste del carrito al abrir Cart quita los agotados, así que hay que apagar el backend al abrir Cart (el ajuste falla y el carrito queda como estaba), abrir el checkout y encender el backend antes de confirmar.
+- El `CheckoutViewModel` tiene el alcance de la entrada `checkout` y la confirmación lo reutiliza (`getBackStackEntry`) para leer la orden del 201.
+- `createdAt` de `Order` queda como texto: las fechas con hora se interpretan en A8.
 - Un botón tapado por el teclado: bajar el teclado antes (`LocalSoftwareKeyboardController.hide()`) o usar `imePadding()`.
 - El menú de país abre un popup: sus opciones se tocan por texto.
 
 ### Criterios de aceptación
 
-- [ ] Carrito → checkout → confirmación → "Done" lleva al catálogo con el stock actualizado.
+- [x] Carrito → checkout → confirmación → "Done" lleva al catálogo con el stock actualizado.
 
 ---
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewmodel.initializer
 import co.com.learningswift.shop.features.account.AccountViewModel
 import co.com.learningswift.shop.features.cart.CartViewModel
 import co.com.learningswift.shop.features.catalog.CatalogViewModel
+import co.com.learningswift.shop.features.checkout.CheckoutViewModel
 import co.com.learningswift.shop.features.login.LoginViewModel
 import co.com.learningswift.shop.features.productdetail.ProductDetailViewModel
 import co.com.learningswift.shop.features.register.RegisterViewModel
@@ -32,4 +33,8 @@ fun productDetailViewModelFactory(container: AppContainer, productId: Long) = vi
 
 fun cartViewModelFactory(container: AppContainer) = viewModelFactory {
     initializer { CartViewModel(container.cart, container.productRepository, container.snackbar) }
+}
+
+fun checkoutViewModelFactory(container: AppContainer) = viewModelFactory {
+    initializer { CheckoutViewModel(container.cart, container.orderRepository) }
 }

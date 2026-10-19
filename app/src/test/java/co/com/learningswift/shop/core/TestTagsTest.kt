@@ -39,6 +39,7 @@ class TestTagsTest {
             TestTags.Catalog.soldOut(7) to "catalog_item_<productId>_soldout_text",
             TestTags.Catalog.addButton(7) to "catalog_item_<productId>_add_button",
             TestTags.productImage("mouse") to "product_image_<imageKey>",
+            TestTags.Confirmation.item(7) to "confirmation_item_<productId>",
             TestTags.Cart.item(7) to "cart_item_<productId>`",
             TestTags.Cart.name(7) to "cart_item_<productId>_name_text",
             TestTags.Cart.quantityStepper(7) to "cart_item_<productId>_quantity_stepper",

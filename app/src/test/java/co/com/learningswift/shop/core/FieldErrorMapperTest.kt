@@ -30,4 +30,22 @@ class FieldErrorMapperTest {
     @Test fun anEmptyMapIsFlagged() {
         assertTrue(map(emptyMap()).hasUnmappedErrors)
     }
+
+    @Test fun checkoutFieldsAreMappedWithTheSameMapper() {
+        val mapped = FieldErrorMapper.map(
+            mapOf("shipping.city" to listOf("size must be between 2 and 60")),
+            co.com.learningswift.shop.features.checkout.CheckoutField::fromBackend,
+        )
+        assertEquals(listOf("size must be between 2 and 60"), mapped.fields[co.com.learningswift.shop.features.checkout.CheckoutField.CITY])
+        assertFalse(mapped.hasUnmappedErrors)
+    }
+
+    @Test fun itemErrorsOfTheCheckoutAreNotFormFields() {
+        val mapped = FieldErrorMapper.map(
+            mapOf("items[0].quantity" to listOf("must be at least 1")),
+            co.com.learningswift.shop.features.checkout.CheckoutField::fromBackend,
+        )
+        assertTrue(mapped.hasUnmappedErrors)
+        assertTrue(mapped.fields.isEmpty())
+    }
 }

@@ -13,9 +13,13 @@ object Routes {
     const val CART_GRAPH = "cart_graph"
     const val CART = "cart"
     const val CHECKOUT = "checkout"
+    const val CONFIRMATION = "confirmation"
+    const val ORDER_ARG = "id"
+    const val ORDER = "order/{$ORDER_ARG}"
 
     const val ACCOUNT_GRAPH = "account_graph"
     const val ACCOUNT = "account"
 
     fun product(id: Long) = "product/$id"
+    fun order(id: Long) = "order/$id"
 }

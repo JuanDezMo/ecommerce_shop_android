@@ -95,6 +95,32 @@ object TestTags {
         fun deleteButton(productId: Long) = "cart_item_${productId}_delete_button"
     }
 
+    object Checkout {
+        const val ADDRESS_INPUT = "checkout_address_input"
+        const val CITY_INPUT = "checkout_city_input"
+        const val POSTALCODE_INPUT = "checkout_postalcode_input"
+        const val COUNTRY_DROPDOWN = "checkout_country_dropdown"
+        const val PAYMENT_SEGMENTED = "checkout_payment_segmented"
+        const val TOTAL_TEXT = "checkout_total_text"
+        const val CONFIRM_BUTTON = "checkout_confirm_button"
+        const val ERROR_SUMMARY_TEXT = "checkout_error_summary_text"
+        const val PLACE_ORDER_ALERT_CONFIRM_BUTTON = "checkout_place_order_alert_confirm_button"
+        const val PLACE_ORDER_ALERT_CANCEL_BUTTON = "checkout_place_order_alert_cancel_button"
+        const val ORDER_ERROR_ALERT_REVIEW_CART_BUTTON = "checkout_order_error_alert_review_cart_button"
+
+        /** Error bajo un campo: `checkout_<campo>_error_text` */
+        fun error(tagSuffix: String) = "checkout_${tagSuffix}_error_text"
+    }
+
+    object Confirmation {
+        const val ORDER_ID_TEXT = "confirmation_order_id_text"
+        const val TOTAL_TEXT = "confirmation_total_text"
+        const val VIEW_ORDER_BUTTON = "confirmation_view_order_button"
+        const val DONE_BUTTON = "confirmation_done_button"
+
+        fun item(productId: Long) = "confirmation_item_$productId"
+    }
+
     object Account {
         const val THEME_SEGMENTED = "account_theme_segmented"
     }

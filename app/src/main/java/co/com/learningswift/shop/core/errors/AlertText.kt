@@ -11,6 +11,19 @@ object AlertText {
         const val CANCEL = "Cancel"
     }
 
+    object PlaceOrder {
+        const val TITLE = "Place order?"
+        const val CONFIRM = "Place order"
+        const val CANCEL = "Cancel"
+        fun message(estimatedTotal: String) = "Estimated total: $estimatedTotal."
+    }
+
+    object OrderError {
+        const val TITLE = "Can't place your order"
+        const val REVIEW_CART = "Review cart"
+        const val CART_MESSAGE = "We couldn't process your cart. Please try again."
+    }
+
     object ClearCart {
         const val TITLE = "Remove all items from your cart?"
         const val CONFIRM = "Clear cart"

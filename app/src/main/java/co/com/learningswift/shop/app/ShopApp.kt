@@ -8,6 +8,9 @@ import co.com.learningswift.shop.features.productdetail.ProductDetailScreen
 import co.com.learningswift.shop.features.cart.CartViewModel
 import co.com.learningswift.shop.features.catalog.CatalogViewModel
 import co.com.learningswift.shop.features.checkout.CheckoutScreen
+import co.com.learningswift.shop.features.checkout.CheckoutViewModel
+import co.com.learningswift.shop.features.confirmation.ConfirmationScreen
+import co.com.learningswift.shop.features.orders.OrderDetailScreen
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import androidx.navigation.NavType
@@ -22,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -113,7 +117,39 @@ private fun MainTabs(container: AppContainer) {
                     val viewModel: CartViewModel = viewModel(factory = cartViewModelFactory(container))
                     CartScreen(viewModel, container.cart, onCheckout = { navController.navigate(Routes.CHECKOUT) })
                 }
-                composable(Routes.CHECKOUT) { CheckoutScreen(onBack = { navController.popBackStack() }) }
+                composable(Routes.CHECKOUT) {
+                    // Su ViewModel tiene el alcance de esta entrada: la confirmación lo reutiliza para leer la orden creada
+                    val viewModel: CheckoutViewModel = viewModel(factory = checkoutViewModelFactory(container))
+                    CheckoutScreen(
+                        viewModel = viewModel,
+                        cart = container.cart,
+                        onOrderPlaced = { navController.navigate(Routes.CONFIRMATION) },
+                        onReviewCart = { navController.popBackStack(Routes.CART, inclusive = false) },
+                        onBack = { navController.popBackStack() },
+                    )
+                }
+                composable(Routes.CONFIRMATION) { entry ->
+                    val checkoutEntry = remember(entry) { navController.getBackStackEntry(Routes.CHECKOUT) }
+                    val viewModel: CheckoutViewModel = viewModel(checkoutEntry, factory = checkoutViewModelFactory(container))
+                    val order = viewModel.state.collectAsStateWithLifecycle().value.placedOrder
+                    if (order != null) {
+                        ConfirmationScreen(
+                            order = order,
+                            onViewOrder = { navController.navigate(Routes.order(order.id)) },
+                            // Cierra el flujo de compra y cambia a Catalog, que se recarga con el stock actualizado
+                            onDone = {
+                                navController.popBackStack(Routes.CART, inclusive = false)
+                                container.selectedTab.value = Tab.Catalog
+                            },
+                        )
+                    }
+                }
+                composable(
+                    Routes.ORDER,
+                    arguments = listOf(navArgument(Routes.ORDER_ARG) { type = NavType.LongType }),
+                ) { entry ->
+                    OrderDetailScreen(entry.arguments!!.getLong(Routes.ORDER_ARG), onBack = { navController.popBackStack() })
+                }
             }
             navigation(startDestination = Routes.ACCOUNT, route = Routes.ACCOUNT_GRAPH) {
                 composable(Routes.ACCOUNT) {

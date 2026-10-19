@@ -6,6 +6,7 @@ import co.com.learningswift.shop.core.session.SessionManager
 import co.com.learningswift.shop.data.local.KeyValueStore
 import co.com.learningswift.shop.data.repository.AuthRepository
 import co.com.learningswift.shop.data.repository.CartRepository
+import co.com.learningswift.shop.data.repository.OrderRepository
 import co.com.learningswift.shop.data.repository.ProductRepository
 import co.com.learningswift.shop.data.repository.SettingsRepository
 import co.com.learningswift.shop.data.repository.UserRepository
@@ -40,5 +41,6 @@ class AppContainer(
     val authRepository = AuthRepository(api, session)
     val cart = CartRepository(store)
     val userRepository = UserRepository(api)
+    val orderRepository = OrderRepository(api)
     val productRepository = ProductRepository(api)
 }
