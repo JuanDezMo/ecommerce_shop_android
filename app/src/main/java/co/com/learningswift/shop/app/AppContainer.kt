@@ -5,6 +5,7 @@ import co.com.learningswift.shop.core.network.ApiClient
 import co.com.learningswift.shop.core.session.SessionManager
 import co.com.learningswift.shop.data.local.KeyValueStore
 import co.com.learningswift.shop.data.repository.AuthRepository
+import co.com.learningswift.shop.data.repository.CartRepository
 import co.com.learningswift.shop.data.repository.ProductRepository
 import co.com.learningswift.shop.data.repository.SettingsRepository
 import co.com.learningswift.shop.data.repository.UserRepository
@@ -37,6 +38,7 @@ class AppContainer(
     /** Para datos sensibles (por ejemplo, un token persistido): cifrado. Se crea al usarlo por primera vez, no al arrancar */
     val secureStore: KeyValueStore by lazy(secureStoreProvider)
     val authRepository = AuthRepository(api, session)
+    val cart = CartRepository(store)
     val userRepository = UserRepository(api)
     val productRepository = ProductRepository(api)
 }

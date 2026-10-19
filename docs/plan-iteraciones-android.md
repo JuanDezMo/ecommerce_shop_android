@@ -1,6 +1,6 @@
 # Plan de iteraciones · App Android ShopLab
 
-Actualizado: 2026-10-19 · **Estado: aprobado. A0, A2, A3 y A4 hechas; siguiente: A5.**
+Actualizado: 2026-10-19 · **Estado: aprobado. A0, A2, A3, A4 y A5 hechas; siguiente: A6.**
 
 Plan de implementación de la app Android, iteración por iteración, para que cualquier desarrollador (también de perfil junior) pueda ejecutarlo sin conocer las conversaciones previas. Es el equivalente del [plan de iOS](../../ecommerce_shop_ios/docs/plan-iteraciones-ios.md), **recortado a lo que Android realmente necesita**: el comportamiento, los IDs, los tests y los flujos de Maestro ya existen y se reutilizan.
 
@@ -329,11 +329,15 @@ El proyecto base (`/Users/juandezmo/Documents/claude_projects/ecommerce_shop_and
 
 - El botón "Add to cart" dentro de una fila clicable: que tocarlo no abra el detalle.
 - `catalog_item_<id>` es un contenedor: **sin** `mergeDescendants`, o los IDs de sus hijos desaparecen.
-- Recargar la lista cada vez que la pestaña aparece (como en iOS), no solo la primera vez.
+- Recargar la lista cada vez que la pestaña aparece (como en iOS), no solo la primera vez: `LifecycleEventEffect(ON_RESUME)`.
+- **`Modifier.clickable` fusiona la semántica de los hijos** (también `Card(onClick)`): usar `clickableKeepingChildren` (en `core/design`) para que los IDs de nombre, precio y botón lleguen a Maestro.
+- Las acciones de los botones se calculan donde se lee el carrito, **fuera** del `LazyColumn`; si no, las filas no se redibujan al cambiar el carrito.
+- La insignia del carrito no expone su texto a `uiautomator`: comprobarla a la vista.
+- Los vectores salen de `scripts/svg_to_vector.py`; si cambia un SVG, regenerarlos.
 
 ### Criterios de aceptación
 
-- [ ] El producto 3 sale como "Sold out" con el botón deshabilitado; con 20 unidades aparece "Cart is full"; la insignia muestra el total de unidades; el carrito sobrevive a cerrar y abrir la app.
+- [x] El producto 3 sale como "Sold out" con el botón deshabilitado; con 20 unidades aparece "Cart is full"; la insignia muestra el total de unidades; el carrito sobrevive a cerrar y abrir la app.
 
 ---
 

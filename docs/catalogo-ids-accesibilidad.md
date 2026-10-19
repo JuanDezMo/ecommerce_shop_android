@@ -101,6 +101,8 @@ Se abre como hoja (sheet) desde el detalle o desde una fila del catálogo. Al co
 | `add_to_cart_quantity_stepper` | Cantidad: de 1 hasta el stock que queda (descontando lo que ya está en el carrito), sin pasar de 20 unidades en total en el carrito |
 | `add_to_cart_confirm_button` | Botón "Add to cart" |
 
+Nota para Android: el selector de cantidad (`add_to_cart_quantity_stepper`, y el de cada línea del carrito) se construye con dos botones llamados `<id>-Decrement` y `<id>-Increment`, igual que los genera iOS; el valor lleva el ID `<id>`. La insignia del carrito no expone su texto a `uiautomator`: se comprueba a la vista. La hoja y las alertas son ventanas aparte: Android repite `testTagsAsResourceId` en ellas.
+
 ## Carrito
 
 | ID | Elemento |

@@ -13,6 +13,7 @@ object TestTags {
         const val TAB_ACCOUNT = "tab_account"
         const val ERROR_ALERT_RETRY_BUTTON = "app_error_alert_retry_button"
         const val ERROR_ALERT_CANCEL_BUTTON = "app_error_alert_cancel_button"
+        const val CART_FULL_ALERT_OK_BUTTON = "app_cart_full_alert_ok_button"
     }
 
     object Login {
@@ -47,6 +48,36 @@ object TestTags {
         /** Error bajo un campo: `register_<campo>_error_text` (solo existe mientras el error se ve) */
         fun error(tagSuffix: String) = "register_${tagSuffix}_error_text"
     }
+
+    object Catalog {
+        const val LIST = "catalog_list"
+        const val ERROR_TEXT = "catalog_error_text"
+
+        fun item(productId: Long) = "catalog_item_$productId"
+        fun name(productId: Long) = "catalog_item_${productId}_name_text"
+        fun price(productId: Long) = "catalog_item_${productId}_price_text"
+        fun soldOut(productId: Long) = "catalog_item_${productId}_soldout_text"
+        fun addButton(productId: Long) = "catalog_item_${productId}_add_button"
+    }
+
+    object ProductDetail {
+        const val NAME_TEXT = "product_detail_name_text"
+        const val DESCRIPTION_TEXT = "product_detail_description_text"
+        const val PRICE_TEXT = "product_detail_price_text"
+        const val STOCK_TEXT = "product_detail_stock_text"
+        const val SOLD_OUT_TEXT = "product_detail_soldout_text"
+        const val ADD_BUTTON = "product_detail_add_button"
+    }
+
+    object AddToCart {
+        const val SHEET = "add_to_cart_sheet"
+        const val NAME_TEXT = "add_to_cart_name_text"
+        const val QUANTITY_STEPPER = "add_to_cart_quantity_stepper"
+        const val CONFIRM_BUTTON = "add_to_cart_confirm_button"
+    }
+
+    /** `product_image_<imageKey>`: lleva la clave RECIBIDA, también cuando se muestra la imagen de respaldo */
+    fun productImage(imageKey: String) = "product_image_$imageKey"
 
     object Account {
         const val THEME_SEGMENTED = "account_theme_segmented"

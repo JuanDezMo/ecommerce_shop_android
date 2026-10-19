@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generado por scripts/svg_to_vector.py desde docs/imagenes-producto/product_speaker.svg. No editar a mano -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="256dp"
+    android:height="256dp"
+    android:viewportWidth="256"
+    android:viewportHeight="256">
+    <path
+        android:fillColor="#FFF0DC"
+        android:pathData="M32,0h192a32,32 0 0 1 32,32v192a32,32 0 0 1 -32,32h-192a32,32 0 0 1 -32,-32v-192a32,32 0 0 1 32,-32z" />
+    <path
+        android:fillColor="#9A3412"
+        android:pathData="M96,32h64a28,28 0 0 1 28,28v136a28,28 0 0 1 -28,28h-64a28,28 0 0 1 -28,-28v-136a28,28 0 0 1 28,-28z" />
+    <path
+        android:fillColor="#FDBA74"
+        android:pathData="M102,92a26,26 0 1 0 52,0a26,26 0 1 0 -52,0z" />
+    <path
+        android:fillColor="#C2410C"
+        android:pathData="M116,92a12,12 0 1 0 24,0a12,12 0 1 0 -24,0z" />
+    <path
+        android:fillColor="#FDBA74"
+        android:pathData="M88,162a40,40 0 1 0 80,0a40,40 0 1 0 -80,0z" />
+    <path
+        android:fillColor="#C2410C"
+        android:pathData="M102,162a26,26 0 1 0 52,0a26,26 0 1 0 -52,0z" />
+    <path
+        android:fillColor="#FED7AA"
+        android:pathData="M118,162a10,10 0 1 0 20,0a10,10 0 1 0 -20,0z" />
+</vector>

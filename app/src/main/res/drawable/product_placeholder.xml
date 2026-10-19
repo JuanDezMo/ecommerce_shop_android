@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generado por scripts/svg_to_vector.py desde docs/imagenes-producto/product_placeholder.svg. No editar a mano -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="256dp"
+    android:height="256dp"
+    android:viewportWidth="256"
+    android:viewportHeight="256">
+    <path
+        android:fillColor="#EEF0F3"
+        android:pathData="M32,0h192a32,32 0 0 1 32,32v192a32,32 0 0 1 -32,32h-192a32,32 0 0 1 -32,-32v-192a32,32 0 0 1 32,-32z" />
+    <path
+        android:fillColor="#9CA3AF"
+        android:pathData="M128 52 L194 88 V168 L128 204 L62 168 V88 Z" />
+    <path
+        android:fillColor="#D1D5DB"
+        android:pathData="M128 52 L194 88 L128 124 L62 88 Z" />
+    <path
+        android:strokeColor="#6B7280"
+        android:strokeWidth="6"
+        android:pathData="M128 124 V204" />
+    <path
+        android:strokeColor="#6B7280"
+        android:strokeWidth="6"
+        android:strokeLineCap="round"
+        android:pathData="M96 70 L160 106" />
+</vector>

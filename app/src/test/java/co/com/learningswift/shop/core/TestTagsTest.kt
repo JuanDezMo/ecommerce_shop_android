@@ -4,6 +4,7 @@ import co.com.learningswift.shop.core.testing.TestTags
 import java.io.File
 import java.lang.reflect.Modifier
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 /** Todo ID de la app debe existir en el catálogo compartido con iOS (docs/catalogo-ids-accesibilidad.md) */
@@ -28,5 +29,22 @@ class TestTagsTest {
     @Test fun tagsAreSnakeCase() {
         val invalid = appTags().filterNot { it.matches(Regex("[a-z0-9_]+")) }
         assertTrue(invalid.isEmpty(), "IDs con formato inválido: $invalid")
+    }
+
+    @Test fun dynamicTagsFollowTheCatalogTemplates() {
+        val templates = mapOf(
+            TestTags.Catalog.item(7) to "catalog_item_<productId>`",
+            TestTags.Catalog.name(7) to "catalog_item_<productId>_name_text",
+            TestTags.Catalog.price(7) to "catalog_item_<productId>_price_text",
+            TestTags.Catalog.soldOut(7) to "catalog_item_<productId>_soldout_text",
+            TestTags.Catalog.addButton(7) to "catalog_item_<productId>_add_button",
+            TestTags.productImage("mouse") to "product_image_<imageKey>",
+        )
+        for ((tag, template) in templates) {
+            assertTrue(catalog.contains(template), "El catálogo no tiene la plantilla $template")
+            assertTrue(tag.matches(Regex("[a-z0-9_]+")), tag)
+        }
+        assertEquals("catalog_item_7_add_button", TestTags.Catalog.addButton(7))
+        assertEquals("product_image_unknown", TestTags.productImage("unknown"))
     }
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generado por scripts/svg_to_vector.py desde docs/imagenes-producto/product_mouse.svg. No editar a mano -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="256dp"
+    android:height="256dp"
+    android:viewportWidth="256"
+    android:viewportHeight="256">
+    <path
+        android:fillColor="#EDE5FF"
+        android:pathData="M32,0h192a32,32 0 0 1 32,32v192a32,32 0 0 1 -32,32h-192a32,32 0 0 1 -32,-32v-192a32,32 0 0 1 32,-32z" />
+    <path
+        android:fillColor="#5B21B6"
+        android:pathData="M128 36 c-38 0 -58 28 -58 64 v54 c0 38 24 66 58 66 s58 -28 58 -66 v-54 c0 -36 -20 -64 -58 -64z" />
+    <path
+        android:fillColor="#7C3AED"
+        android:pathData="M128 36 c-38 0 -58 28 -58 64 h58z" />
+    <path
+        android:fillColor="#6D28D9"
+        android:pathData="M128 36 c38 0 58 28 58 64 h-58z" />
+    <path
+        android:fillColor="#DDD6FE"
+        android:pathData="M128,58h0a8,8 0 0 1 8,8v20a8,8 0 0 1 -8,8h-0a8,8 0 0 1 -8,-8v-20a8,8 0 0 1 8,-8z" />
+    <path
+        android:strokeColor="#4C1D95"
+        android:strokeWidth="4"
+        android:pathData="M70 100 h116" />
+    <path
+        android:strokeColor="#4C1D95"
+        android:strokeWidth="4"
+        android:pathData="M128 36 V100" />
+</vector>

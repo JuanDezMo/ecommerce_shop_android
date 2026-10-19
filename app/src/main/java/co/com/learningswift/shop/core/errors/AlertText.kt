@@ -11,6 +11,12 @@ object AlertText {
         const val CANCEL = "Cancel"
     }
 
+    object CartFull {
+        const val TITLE = "Cart is full"
+        const val MESSAGE = "Your cart can hold up to 20 items."
+        const val OK = "OK"
+    }
+
     object AccountCreated {
         const val TITLE = "Account created"
         const val MESSAGE = "You can now log in with your email."

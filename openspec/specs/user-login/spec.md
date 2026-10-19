@@ -144,11 +144,15 @@ Si el usuario llega al login porque la sesión expiró, la pantalla SHALL mostra
 - **THEN** el login no muestra el aviso
 
 ### Requirement: Enlace a registro
-La pantalla SHALL mostrar el enlace "Create account" (`login_register_link`). Mientras no exista la pantalla de registro, pulsarlo MUST NOT producir ningún efecto ni error.
+La pantalla SHALL mostrar el enlace "Create account" (`login_register_link`), que MUST abrir la pantalla de registro. Al volver del registro al login, el email y la contraseña escritos antes MUST seguir escritos.
 
 #### Scenario: Pulsar el enlace
 - **WHEN** el usuario pulsa "Create account"
-- **THEN** la app sigue en el login sin cambios
+- **THEN** se muestra la primera pantalla del registro
+
+#### Scenario: Volver del registro
+- **WHEN** el usuario escribió un email en el login, abrió el registro y volvió
+- **THEN** el email sigue escrito
 
 ### Requirement: Los datos no sobreviven al inicio de sesión
 Al iniciar sesión con éxito, el formulario SHALL quedar vacío, de modo que tras un logout o una expiración el login arranque sin el email ni la contraseña anteriores.

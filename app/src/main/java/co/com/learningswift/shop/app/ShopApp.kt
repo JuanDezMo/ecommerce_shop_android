@@ -3,6 +3,14 @@ package co.com.learningswift.shop.app
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import co.com.learningswift.shop.features.productdetail.ProductDetailViewModel
+import co.com.learningswift.shop.features.productdetail.ProductDetailScreen
+import co.com.learningswift.shop.features.catalog.CatalogViewModel
+import androidx.navigation.compose.navigation
+import androidx.navigation.navArgument
+import androidx.navigation.NavType
+import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.Badge
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -50,6 +58,8 @@ fun ShopApp(container: AppContainer) {
 private fun MainTabs(container: AppContainer) {
     val navController = rememberNavController()
     val selectedTab by container.selectedTab.collectAsStateWithLifecycle()
+    val cartItems by container.cart.items.collectAsStateWithLifecycle()
+    val cartCount = cartItems.sumOf { it.quantity }
 
     // La barra solo escribe selectedTab; aquí se traduce a navegación (así cualquier pantalla puede cambiar de pestaña)
     LaunchedEffect(selectedTab) {
@@ -68,7 +78,7 @@ private fun MainTabs(container: AppContainer) {
                     NavigationBarItem(
                         selected = selectedTab == tab,
                         onClick = { container.selectedTab.value = tab },
-                        icon = { Icon(tab.icon, contentDescription = null) },
+                        icon = { TabIcon(tab, cartCount) },
                         label = { Text(tab.label) },
                         modifier = Modifier.testTag(tab.tag),
                     )
@@ -77,14 +87,45 @@ private fun MainTabs(container: AppContainer) {
         },
     ) { padding ->
         NavHost(navController, startDestination = Tab.Catalog.route, modifier = Modifier.padding(padding)) {
-            composable(Tab.Catalog.route) { CatalogScreen() }
-            composable(Tab.Cart.route) { CartScreen() }
-            composable(Tab.Account.route) {
-                // Cada pantalla recibe SU ViewModel (no el contenedor): la factory saca de él lo que necesita
-                val viewModel: AccountViewModel = viewModel(factory = accountViewModelFactory(container))
-                AccountScreen(viewModel)
+            navigation(startDestination = Routes.CATALOG, route = Routes.CATALOG_GRAPH) {
+                composable(Routes.CATALOG) {
+                    val viewModel: CatalogViewModel = viewModel(factory = catalogViewModelFactory(container))
+                    CatalogScreen(
+                        viewModel = viewModel,
+                        cart = container.cart,
+                        snackbar = container.snackbar,
+                        onProductTap = { navController.navigate(Routes.product(it)) },
+                    )
+                }
+                composable(
+                    Routes.PRODUCT,
+                    arguments = listOf(navArgument(Routes.PRODUCT_ARG) { type = NavType.LongType }),
+                ) { entry ->
+                    val productId = entry.arguments!!.getLong(Routes.PRODUCT_ARG)
+                    val viewModel: ProductDetailViewModel = viewModel(factory = productDetailViewModelFactory(container, productId))
+                    ProductDetailScreen(viewModel, container.cart, container.snackbar, onBack = { navController.popBackStack() })
+                }
+            }
+            navigation(startDestination = Routes.CART, route = Routes.CART_GRAPH) {
+                composable(Routes.CART) { CartScreen() }
+            }
+            navigation(startDestination = Routes.ACCOUNT, route = Routes.ACCOUNT_GRAPH) {
+                composable(Routes.ACCOUNT) {
+                    // Cada pantalla recibe SU ViewModel (no el contenedor): la factory saca de él lo que necesita
+                    val viewModel: AccountViewModel = viewModel(factory = accountViewModelFactory(container))
+                    AccountScreen(viewModel)
+                }
             }
         }
     }
 }
 
+/** Icono de la pestaña. En Cart lleva la insignia con el total de unidades, y ninguna si el carrito está vacío */
+@Composable
+private fun TabIcon(tab: Tab, cartCount: Int) {
+    if (tab == Tab.Cart && cartCount > 0) {
+        BadgedBox(badge = { Badge { Text(cartCount.toString()) } }) { Icon(tab.icon, contentDescription = null) }
+    } else {
+        Icon(tab.icon, contentDescription = null)
+    }
+}

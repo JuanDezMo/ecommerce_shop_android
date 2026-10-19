@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generado por scripts/svg_to_vector.py desde docs/imagenes-producto/product_smartwatch.svg. No editar a mano -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="256dp"
+    android:height="256dp"
+    android:viewportWidth="256"
+    android:viewportHeight="256">
+    <path
+        android:fillColor="#FDE8F1"
+        android:pathData="M32,0h192a32,32 0 0 1 32,32v192a32,32 0 0 1 -32,32h-192a32,32 0 0 1 -32,-32v-192a32,32 0 0 1 32,-32z" />
+    <path
+        android:fillColor="#9D174D"
+        android:pathData="M114,24h28a16,16 0 0 1 16,16v176a16,16 0 0 1 -16,16h-28a16,16 0 0 1 -16,-16v-176a16,16 0 0 1 16,-16z" />
+    <path
+        android:fillColor="#BE185D"
+        android:pathData="M96,72h64a30,30 0 0 1 30,30v52a30,30 0 0 1 -30,30h-64a30,30 0 0 1 -30,-30v-52a30,30 0 0 1 30,-30z" />
+    <path
+        android:fillColor="#1F2937"
+        android:pathData="M98,82h60a22,22 0 0 1 22,22v48a22,22 0 0 1 -22,22h-60a22,22 0 0 1 -22,-22v-48a22,22 0 0 1 22,-22z" />
+    <path
+        android:strokeColor="#F9A8D4"
+        android:strokeWidth="6"
+        android:pathData="M98,128a30,30 0 1 0 60,0a30,30 0 1 0 -60,0z" />
+    <path
+        android:strokeColor="#F9A8D4"
+        android:strokeWidth="6"
+        android:strokeLineCap="round"
+        android:pathData="M128 128 V108 M128 128 L142 136" />
+    <path
+        android:fillColor="#831843"
+        android:pathData="M194,116h0a4,4 0 0 1 4,4v16a4,4 0 0 1 -4,4h-0a4,4 0 0 1 -4,-4v-16a4,4 0 0 1 4,-4z" />
+</vector>
