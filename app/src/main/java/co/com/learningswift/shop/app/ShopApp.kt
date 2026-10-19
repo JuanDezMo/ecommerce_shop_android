@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import co.com.learningswift.shop.features.productdetail.ProductDetailViewModel
 import co.com.learningswift.shop.features.productdetail.ProductDetailScreen
+import co.com.learningswift.shop.features.cart.CartViewModel
 import co.com.learningswift.shop.features.catalog.CatalogViewModel
+import co.com.learningswift.shop.features.checkout.CheckoutScreen
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import androidx.navigation.NavType
@@ -107,7 +109,11 @@ private fun MainTabs(container: AppContainer) {
                 }
             }
             navigation(startDestination = Routes.CART, route = Routes.CART_GRAPH) {
-                composable(Routes.CART) { CartScreen() }
+                composable(Routes.CART) {
+                    val viewModel: CartViewModel = viewModel(factory = cartViewModelFactory(container))
+                    CartScreen(viewModel, container.cart, onCheckout = { navController.navigate(Routes.CHECKOUT) })
+                }
+                composable(Routes.CHECKOUT) { CheckoutScreen(onBack = { navController.popBackStack() }) }
             }
             navigation(startDestination = Routes.ACCOUNT, route = Routes.ACCOUNT_GRAPH) {
                 composable(Routes.ACCOUNT) {

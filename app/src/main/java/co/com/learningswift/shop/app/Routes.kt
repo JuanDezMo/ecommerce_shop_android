@@ -12,6 +12,7 @@ object Routes {
 
     const val CART_GRAPH = "cart_graph"
     const val CART = "cart"
+    const val CHECKOUT = "checkout"
 
     const val ACCOUNT_GRAPH = "account_graph"
     const val ACCOUNT = "account"

@@ -11,6 +11,12 @@ object AlertText {
         const val CANCEL = "Cancel"
     }
 
+    object ClearCart {
+        const val TITLE = "Remove all items from your cart?"
+        const val CONFIRM = "Clear cart"
+        const val CANCEL = "Cancel"
+    }
+
     object CartFull {
         const val TITLE = "Cart is full"
         const val MESSAGE = "Your cart can hold up to 20 items."

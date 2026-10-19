@@ -1,6 +1,6 @@
 # Plan de iteraciones · App Android ShopLab
 
-Actualizado: 2026-10-19 · **Estado: aprobado. A0, A2, A3, A4 y A5 hechas; siguiente: A6.**
+Actualizado: 2026-10-19 · **Estado: aprobado. A0, A2, A3, A4, A5 y A6 hechas; siguiente: A7.**
 
 Plan de implementación de la app Android, iteración por iteración, para que cualquier desarrollador (también de perfil junior) pueda ejecutarlo sin conocer las conversaciones previas. Es el equivalente del [plan de iOS](../../ecommerce_shop_ios/docs/plan-iteraciones-ios.md), **recortado a lo que Android realmente necesita**: el comportamiento, los IDs, los tests y los flujos de Maestro ya existen y se reutilizan.
 
@@ -355,21 +355,22 @@ El proyecto base (`/Users/juandezmo/Documents/claude_projects/ecommerce_shop_and
 | --- | --- |
 | `data/repository/CartRepository.kt` | Añadir `setQuantity(quantity, productId, stock)`, `remove`, `clear`, `reconcile(products)` |
 | `features/cart/CartUiState.kt`, `CartViewModel.kt`, `CartScreen.kt` | Líneas con imagen, nombre, selector y subtotal; total; "Clear cart" con `AlertDialog`; estado vacío; "Checkout" solo con líneas |
-| `features/cart/CartLineRow.kt` | `SwipeToDismissBox` con "Delete" |
+| `features/cart/CartLineRow.kt`, `core/design/SwipeToRevealRow.kt` | Fila con "Delete" que se muestra al deslizar y espera el toque (`SwipeToDismissBox` no sirve: descarta al soltar o vuelve, no deja un botón esperando) |
 
 ### Tests
 
-- [ ] Unitarios (`CartRepositoryTest`): `reconcile` baja cantidades y quita agotados o inexistentes (y devuelve `false` si no cambió nada); `setQuantity` no supera el stock ni el total de 20; `clear` guarda el carrito vacío.
-- [ ] Integración (`CartIntegrationTest`): un carrito con el producto 3 → tras `refresh()` la línea desaparece y se muestra el snackbar; con 1 unidad del producto 5 no cambia nada; con el backend caído, alerta genérica y carrito intacto.
+- [x] Unitarios (`CartRepositoryTest`): `reconcile` baja cantidades y quita agotados o inexistentes (y devuelve `false` si no cambió nada); `setQuantity` no supera el stock ni el total de 20; `clear` guarda el carrito vacío.
+- [x] Integración (`CartIntegrationTest`): un carrito con el producto 3 → tras `refresh()` la línea desaparece y se muestra el snackbar; con 1 unidad del producto 5 no cambia nada; con el backend caído, alerta genérica y carrito intacto.
 
 ### Trampas conocidas
 
 - Sin stock conocido (antes de la primera respuesta) el selector **no deja subir**.
+- Para probar el ajuste al stock en el emulador: sembrar `shared_prefs/shop.xml` con `adb shell run-as co.com.learningswift.shop` (app debuggable).
 - Un 401 de token no se muestra como error: `ApiClient` ya cerró la sesión.
 
 ### Criterios de aceptación
 
-- [ ] Deslizar, vaciar con confirmación, editar cantidades y el estado vacío funcionan; el carrito se ajusta al abrir la pestaña.
+- [x] Deslizar, vaciar con confirmación, editar cantidades y el estado vacío funcionan; el carrito se ajusta al abrir la pestaña.
 
 ---
 

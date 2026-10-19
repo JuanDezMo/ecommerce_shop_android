@@ -39,6 +39,11 @@ class TestTagsTest {
             TestTags.Catalog.soldOut(7) to "catalog_item_<productId>_soldout_text",
             TestTags.Catalog.addButton(7) to "catalog_item_<productId>_add_button",
             TestTags.productImage("mouse") to "product_image_<imageKey>",
+            TestTags.Cart.item(7) to "cart_item_<productId>`",
+            TestTags.Cart.name(7) to "cart_item_<productId>_name_text",
+            TestTags.Cart.quantityStepper(7) to "cart_item_<productId>_quantity_stepper",
+            TestTags.Cart.subtotal(7) to "cart_item_<productId>_subtotal_text",
+            TestTags.Cart.deleteButton(7) to "cart_item_<productId>_delete_button",
         )
         for ((tag, template) in templates) {
             assertTrue(catalog.contains(template), "El catálogo no tiene la plantilla $template")

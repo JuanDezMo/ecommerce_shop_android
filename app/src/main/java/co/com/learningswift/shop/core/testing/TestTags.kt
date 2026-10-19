@@ -79,6 +79,22 @@ object TestTags {
     /** `product_image_<imageKey>`: lleva la clave RECIBIDA, también cuando se muestra la imagen de respaldo */
     fun productImage(imageKey: String) = "product_image_$imageKey"
 
+    object Cart {
+        const val LIST = "cart_list"
+        const val TOTAL_TEXT = "cart_total_text"
+        const val CLEAR_BUTTON = "cart_clear_button"
+        const val CHECKOUT_BUTTON = "cart_checkout_button"
+        const val EMPTY_TEXT = "cart_empty_text"
+        const val CLEAR_DIALOG_CONFIRM_BUTTON = "cart_clear_dialog_confirm_button"
+        const val CLEAR_DIALOG_CANCEL_BUTTON = "cart_clear_dialog_cancel_button"
+
+        fun item(productId: Long) = "cart_item_$productId"
+        fun name(productId: Long) = "cart_item_${productId}_name_text"
+        fun quantityStepper(productId: Long) = "cart_item_${productId}_quantity_stepper"
+        fun subtotal(productId: Long) = "cart_item_${productId}_subtotal_text"
+        fun deleteButton(productId: Long) = "cart_item_${productId}_delete_button"
+    }
+
     object Account {
         const val THEME_SEGMENTED = "account_theme_segmented"
     }

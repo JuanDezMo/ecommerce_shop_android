@@ -3,6 +3,7 @@ package co.com.learningswift.shop.app
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.lifecycle.viewmodel.initializer
 import co.com.learningswift.shop.features.account.AccountViewModel
+import co.com.learningswift.shop.features.cart.CartViewModel
 import co.com.learningswift.shop.features.catalog.CatalogViewModel
 import co.com.learningswift.shop.features.login.LoginViewModel
 import co.com.learningswift.shop.features.productdetail.ProductDetailViewModel
@@ -27,4 +28,8 @@ fun catalogViewModelFactory(container: AppContainer) = viewModelFactory {
 
 fun productDetailViewModelFactory(container: AppContainer, productId: Long) = viewModelFactory {
     initializer { ProductDetailViewModel(container.productRepository, productId) }
+}
+
+fun cartViewModelFactory(container: AppContainer) = viewModelFactory {
+    initializer { CartViewModel(container.cart, container.productRepository, container.snackbar) }
 }

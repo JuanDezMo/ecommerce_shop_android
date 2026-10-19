@@ -44,6 +44,47 @@ class CartRepository(private val store: KeyValueStore) {
         save()
     }
 
+    /**
+     * Cambia la cantidad de una línea: nunca menos de 1, ni más que el stock, ni más de lo que deja el tope de 20.
+     * El stock llega de fuera porque el carrito no lo guarda (se queda viejo): lo trae la última petición de productos.
+     */
+    fun setQuantity(quantity: Int, productId: Long, stock: Int) {
+        val current = quantityOf(productId)
+        if (current == 0) return
+        val allowed = minOf(stock, current + MAX_TOTAL_QUANTITY - totalQuantity)
+        val newQuantity = maxOf(1, minOf(quantity, allowed))
+        if (newQuantity == current) return
+
+        _items.value = _items.value.map { if (it.productId == productId) it.copy(quantity = newQuantity) else it }
+        save()
+    }
+
+    fun remove(productId: Long) {
+        _items.value = _items.value.filterNot { it.productId == productId }
+        save()
+    }
+
+    fun clear() {
+        _items.value = emptyList()
+        save()
+    }
+
+    /**
+     * Ajusta el carrito al stock real: baja las cantidades y quita los productos agotados o que ya no existen.
+     * Devuelve `true` si cambió algo (la pantalla muestra entonces el snackbar de Comportamiento §7.2).
+     */
+    fun reconcile(products: List<Product>): Boolean {
+        val adjusted = _items.value.mapNotNull { item ->
+            val product = products.firstOrNull { it.id == item.productId }
+            if (product == null || product.stock <= 0) null else item.copy(quantity = minOf(item.quantity, product.stock))
+        }
+        if (adjusted == _items.value) return false
+
+        _items.value = adjusted
+        save()
+        return true
+    }
+
     private fun save() {
         store.putString(KEY, AppJson.encodeToString(ListSerializer(CartItem.serializer()), _items.value))
     }

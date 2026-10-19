@@ -79,4 +79,69 @@ class CartRepositoryTest {
         store.putString("cart.items", "esto no es JSON")
         assertTrue(CartRepository(store).items.value.isEmpty())
     }
+
+    // ---- A6: editar, quitar, vaciar y ajustar al stock ----
+    @Test fun reconcileLowersAQuantityToTheStock() {
+        cart.add(product(5, stock = 99), 5)
+        assertTrue(cart.reconcile(listOf(product(5, stock = 1))))
+        assertEquals(1, cart.quantityOf(5))
+    }
+
+    @Test fun reconcileRemovesSoldOutAndMissingProducts() {
+        cart.add(product(1), 2)
+        cart.add(product(3, stock = 99), 1)
+        cart.add(product(9), 1)
+        assertTrue(cart.reconcile(listOf(product(1), product(3, stock = 0))))   // el 9 ya no existe
+        assertEquals(listOf(1L), cart.items.value.map { it.productId })
+    }
+
+    @Test fun reconcileReturnsFalseAndDoesNotSaveWhenNothingChanged() {
+        cart.add(product(5, stock = 1), 1)
+        store.putString("cart.items", "marca")   // si guardara, la marca desaparecería
+        assertFalse(cart.reconcile(listOf(product(5, stock = 1))))
+        assertEquals("marca", store.getString("cart.items"))
+        assertEquals(1, cart.quantityOf(5))
+    }
+
+    @Test fun setQuantityNeverExceedsTheStock() {
+        val p = product(1, stock = 3)
+        cart.add(p, 3)
+        cart.setQuantity(9, productId = 1, stock = 3)
+        assertEquals(3, cart.quantityOf(1))
+    }
+
+    @Test fun setQuantityNeverExceedsTheTwentyUnitLimit() {
+        cart.add(product(1, stock = 99), 2)
+        cart.add(product(2, stock = 99), 16)      // 18 en total
+        cart.setQuantity(10, productId = 1, stock = 99)
+        assertEquals(4, cart.quantityOf(1))       // 2 + lo que faltaba para 20
+        assertEquals(20, cart.totalQuantity)
+    }
+
+    @Test fun setQuantityNeverGoesBelowOne() {
+        cart.add(product(1), 2)
+        cart.setQuantity(0, productId = 1, stock = 10)
+        assertEquals(1, cart.quantityOf(1))
+    }
+
+    @Test fun setQuantitySavesTheChange() {
+        cart.add(product(1), 2)
+        cart.setQuantity(4, productId = 1, stock = 10)
+        assertEquals(4, CartRepository(store).quantityOf(1))
+    }
+
+    @Test fun removeDeletesOnlyThatLine() {
+        cart.add(product(1), 2)
+        cart.add(product(2), 1)
+        cart.remove(1)
+        assertEquals(listOf(2L), cart.items.value.map { it.productId })
+        assertEquals(listOf(2L), CartRepository(store).items.value.map { it.productId })
+    }
+
+    @Test fun clearEmptiesTheCartAndSavesItEmpty() {
+        cart.add(product(1), 2)
+        cart.clear()
+        assertTrue(cart.items.value.isEmpty())
+        assertTrue(CartRepository(store).items.value.isEmpty())
+    }
 }
