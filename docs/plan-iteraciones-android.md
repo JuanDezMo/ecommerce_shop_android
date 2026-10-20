@@ -1,6 +1,6 @@
 # Plan de iteraciones · App Android ShopLab
 
-Actualizado: 2026-10-19 · **Estado: aprobado. A0 a A8 hechas; A9 hecha en parte (IDs, R8 y Maestro con 5 flujos); pendiente de la A9: extras de arranque, flujos 04/05/07/08/09 y emulador API 34.**
+Actualizado: 2026-10-19 · **Estado: aprobado. A0 a A8 hechas; A9 cerrada con alcance recortado (IDs, R8 y Maestro con 5 flujos); diferido: extras de arranque, flujos 04/05/07/08/09 y emulador API 34.**
 
 Plan de implementación de la app Android, iteración por iteración, para que cualquier desarrollador (también de perfil junior) pueda ejecutarlo sin conocer las conversaciones previas. Es el equivalente del [plan de iOS](../../ecommerce_shop_ios/docs/plan-iteraciones-ios.md), **recortado a lo que Android realmente necesita**: el comportamiento, los IDs, los tests y los flujos de Maestro ya existen y se reutilizan.
 
