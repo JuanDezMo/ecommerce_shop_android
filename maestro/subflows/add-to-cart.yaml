@@ -1,0 +1,23 @@
+appId: co.com.learningswift.shop
+---
+# Añade QUANTITY unidades del producto PRODUCT_ID desde su fila del catálogo (el stepper empieza en 1)
+- scrollUntilVisible:
+    element:
+      id: "catalog_item_${PRODUCT_ID}_add_button"
+    direction: DOWN
+- tapOn:
+    id: "catalog_item_${PRODUCT_ID}_add_button"
+- assertVisible:
+    id: "add_to_cart_sheet"
+- repeat:
+    times: ${CLICKS}
+    commands:
+      # El "+" del Stepper expone el ID del stepper con el sufijo "-Increment" (comprobado con la jerarquía)
+      - tapOn:
+          id: "add_to_cart_quantity_stepper-Increment"
+- tapOn:
+    id: "add_to_cart_confirm_button"
+- extendedWaitUntil:
+    visible:
+      id: "app_snackbar_text"
+    timeout: 5000

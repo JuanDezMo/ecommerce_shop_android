@@ -1,0 +1,49 @@
+appId: co.com.learningswift.shop
+---
+- launchApp:
+    clearState: true
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: "standard@shoplab.dev"
+      PASSWORD: "Secret_123"
+
+# El catálogo muestra los seis productos y el Smart Watch (3) está agotado
+- assertVisible:
+    id: "catalog_item_1"
+- assertVisible:
+    id: "catalog_item_3_soldout_text"
+- assertVisible:
+    id: "catalog_item_3_add_button"
+    enabled: false
+
+# 10 unidades del producto 1 (todo su stock): la hoja se cierra y aparece el snackbar
+- runFlow:
+    file: ../subflows/add-to-cart.yaml
+    env:
+      PRODUCT_ID: "1"
+      CLICKS: "9"
+- assertVisible: "Added to cart"
+# Con todo su stock en el carrito, su botón queda deshabilitado
+- assertVisible:
+    id: "catalog_item_1_add_button"
+    enabled: false
+
+# 10 unidades del producto 4: el carrito llega a 20
+- runFlow:
+    file: ../subflows/add-to-cart.yaml
+    env:
+      PRODUCT_ID: "4"
+      CLICKS: "9"
+
+# Con 20 unidades, "Add to cart" de otro producto muestra la alerta "Cart is full"
+- scrollUntilVisible:
+    element:
+      id: "catalog_item_2_add_button"
+    direction: UP
+- tapOn:
+    id: "catalog_item_2_add_button"
+- assertVisible: "Cart is full"
+- assertVisible: "Your cart can hold up to 20 items."
+- tapOn: "OK"
+- assertNotVisible: "Cart is full"

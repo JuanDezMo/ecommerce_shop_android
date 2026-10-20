@@ -1,0 +1,111 @@
+appId: co.com.learningswift.shop
+---
+- launchApp:
+    clearState: true
+- runFlow:
+    file: ../subflows/login.yaml
+    env:
+      EMAIL: "standard@shoplab.dev"
+      PASSWORD: "Secret_123"
+
+# Carrito: 2 unidades del producto 1 y 2 del producto 4 (2 × $59.99 + 2 × $25.00 = $169.98)
+- runFlow:
+    file: ../subflows/add-to-cart.yaml
+    env:
+      PRODUCT_ID: "1"
+      CLICKS: "1"
+- runFlow:
+    file: ../subflows/add-to-cart.yaml
+    env:
+      PRODUCT_ID: "4"
+      CLICKS: "1"
+- tapOn:
+    id: "tab_cart"
+- assertVisible:
+    id: "cart_total_text"
+- assertVisible: "$169.98"
+- tapOn:
+    id: "cart_checkout_button"
+
+# OJO: en Maestro el texto es una expresión regular, así que el "?" del título se escapa (si no, "Place order?" también encuentra el botón "Place order")
+# Formulario vacío: "Place order" muestra los 4 errores y no abre ninguna alerta
+- assertVisible:
+    id: "checkout_total_text"
+- tapOn:
+    id: "checkout_confirm_button"
+- assertVisible:
+    id: "checkout_error_summary_text"
+- assertVisible: "4 fields need attention"
+- assertVisible:
+    id: "checkout_address_error_text"
+- assertNotVisible: 'Place order\?'
+
+# Datos válidos, pago en efectivo
+- tapOn:
+    id: "checkout_address_input"
+- inputText: "Calle 123 #45"
+- tapOn:
+    id: "checkout_city_input"
+- inputText: "Bogota"
+- tapOn:
+    id: "checkout_postalcode_input"
+- inputText: "110111"
+# Android: el teclado tapa el resto del formulario, se baja con hideKeyboard (en iOS se arrastraba la lista)
+- hideKeyboard
+- tapOn:
+    id: "checkout_country_dropdown"
+- tapOn: "Colombia"
+- tapOn: "Cash"
+- tapOn:
+    id: "checkout_confirm_button"
+
+# Alerta de confirmación: "Cancel" vuelve al formulario con lo escrito
+- assertVisible: 'Place order\?'
+- assertVisible: "Estimated total: $169.98."
+- tapOn: "Cancel"
+- assertNotVisible: 'Place order\?'
+- assertVisible: "Bogota"
+
+# Confirmar la compra
+- tapOn:
+    id: "checkout_confirm_button"
+- assertVisible: 'Place order\?'
+- tapOn: "Place order"
+
+# Confirmación: datos del backend
+- extendedWaitUntil:
+    visible:
+      id: "confirmation_order_id_text"
+    timeout: 10000
+- assertVisible:
+    id: "confirmation_item_1"
+- assertVisible:
+    id: "confirmation_item_4"
+- assertVisible:
+    id: "confirmation_total_text"
+- assertVisible: "$169.98"
+
+# "View order" abre el detalle de la orden y atrás vuelve a la confirmación
+- tapOn:
+    id: "confirmation_view_order_button"
+- extendedWaitUntil:
+    visible:
+      id: "order_detail_id_text"
+    timeout: 10000
+- assertVisible: "Confirmed"
+- assertVisible: "Cash"
+- assertVisible:
+    id: "order_detail_total_text"
+- assertVisible: "$169.98"
+# Android: atrás del sistema (en iOS es el botón con el título de la pantalla anterior)
+- back
+
+# "Done" vuelve al catálogo y el carrito queda vacío
+- tapOn:
+    id: "confirmation_done_button"
+- assertVisible:
+    id: "catalog_list"
+- tapOn:
+    id: "tab_cart"
+- assertVisible:
+    id: "cart_empty_text"

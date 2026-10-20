@@ -44,6 +44,8 @@ android {
         unitTests.all {
             // Las pruebas de integración usan el backend real y un reset por test: no pueden correr en paralelo
             it.maxParallelForks = 1
+            // TestTagsTest lee el catálogo en tiempo de ejecución: sin declararlo, Gradle reutiliza un resultado viejo
+            it.inputs.file(rootProject.file("docs/catalogo-ids-accesibilidad.md"))
         }
     }
 }

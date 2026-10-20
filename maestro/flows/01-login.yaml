@@ -1,0 +1,35 @@
+appId: co.com.learningswift.shop
+---
+- launchApp:
+    clearState: true
+
+# 1. Credenciales incorrectas: error en línea y seguimos en el login
+- tapOn:
+    id: "login_email_input"
+- inputText: "standard@shoplab.dev"
+- tapOn:
+    id: "login_password_input"
+- inputText: "Wrong_123"
+- tapOn:
+    id: "login_submit_button"
+- assertVisible:
+    id: "login_error_text"
+- assertVisible: "The email or password is incorrect."
+- assertVisible:
+    id: "login_submit_button"
+
+# 2. Credenciales correctas: se corrige la contraseña y se entra al catálogo
+- tapOn:
+    id: "login_password_input"
+- eraseText: 20
+- inputText: "Secret_123"
+- tapOn:
+    id: "login_submit_button"
+- extendedWaitUntil:
+    visible:
+      id: "catalog_list"
+    timeout: 10000
+- assertVisible:
+    id: "tab_catalog"
+- assertNotVisible:
+    id: "login_submit_button"

@@ -1,0 +1,7 @@
+appId: co.com.learningswift.shop
+---
+# Prueba de humo: la app abre y muestra el login
+- launchApp:
+    clearState: true
+- assertVisible:
+    id: "login_submit_button"

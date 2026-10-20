@@ -1,6 +1,6 @@
 # Plan de iteraciones · App Android ShopLab
 
-Actualizado: 2026-10-19 · **Estado: aprobado. A0 a A8 hechas; siguiente: A9.**
+Actualizado: 2026-10-19 · **Estado: aprobado. A0 a A8 hechas; A9 hecha en parte (IDs, R8 y Maestro con 5 flujos); pendiente de la A9: extras de arranque, flujos 04/05/07/08/09 y emulador API 34.**
 
 Plan de implementación de la app Android, iteración por iteración, para que cualquier desarrollador (también de perfil junior) pueda ejecutarlo sin conocer las conversaciones previas. Es el equivalente del [plan de iOS](../../ecommerce_shop_ios/docs/plan-iteraciones-ios.md), **recortado a lo que Android realmente necesita**: el comportamiento, los IDs, los tests y los flujos de Maestro ya existen y se reutilizan.
 
@@ -508,6 +508,10 @@ El proyecto base (`/Users/juandezmo/Documents/claude_projects/ecommerce_shop_and
 - [ ] El APK de release minificado funciona.
 
 ---
+
+### Estado de la A9 (2026-10-19)
+
+Hecho: `TestTagsTest` en las dos direcciones, reglas de R8 con el APK minificado ejecutado, y la carpeta `maestro/` propia de Android con `00`, `01`, `02`, `03` y `06` pasando (el `06` también en oscuro y contra el release). **Diferido por decisión del responsable:** extras de arranque (`testSessionToken`, `testForceError`, `testForceErrorPath`, `testDelay`, `apiBaseUrl`) con sus tests y escenarios, flujos `04`, `05`, `07`, `08` y `09`, emulador API 34 y decisión del token persistido. Ver `docs/guia-pruebas-maestro-android.md`.
 
 ## 7. Riesgos y qué hacer
 

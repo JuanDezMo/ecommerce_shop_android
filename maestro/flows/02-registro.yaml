@@ -1,0 +1,73 @@
+appId: co.com.learningswift.shop
+---
+- launchApp:
+    clearState: true
+- tapOn:
+    id: "login_register_link"
+
+# Paso 1 vacío: "Next" no avanza y muestra 5 errores
+- assertVisible: "Step 1 of 2"
+- tapOn:
+    id: "register_next_button"
+- assertVisible:
+    id: "register_error_summary_text"
+- assertVisible: "5 fields need attention"
+- assertVisible:
+    id: "register_firstname_error_text"
+- assertVisible: "Step 1 of 2"
+
+# Paso 1 válido
+- tapOn:
+    id: "register_firstname_input"
+- inputText: "Alexandria"
+# Android: el teclado tapa los campos de abajo, se baja tras cada campo
+- hideKeyboard
+- tapOn:
+    id: "register_lastname_input"
+- inputText: "Montgomery"
+- hideKeyboard
+- tapOn:
+    id: "register_email_input"
+- inputText: "ana@example.com"
+- hideKeyboard
+- tapOn:
+    id: "register_password_input"
+- inputText: "PassC0d3*123"
+- hideKeyboard
+- tapOn:
+    id: "register_phone_input"
+- inputText: "+5731012390901"
+- hideKeyboard
+- tapOn:
+    id: "register_next_button"
+
+# Paso 2 sin país ni términos: "Create account" muestra 2 errores
+- assertVisible: "Step 2 of 2"
+- tapOn:
+    id: "register_submit_button"
+- assertVisible: "2 fields need attention"
+- assertVisible:
+    id: "register_country_error_text"
+- assertVisible:
+    id: "register_terms_error_text"
+
+# Paso 2 válido: país (menú), términos y envío
+- tapOn:
+    id: "register_country_dropdown"
+- tapOn: "Colombia"
+- tapOn:
+    id: "register_terms_checkbox"
+- tapOn:
+    id: "register_submit_button"
+
+# Alerta nativa: se localiza por su texto
+- extendedWaitUntil:
+    visible: "Account created"
+    timeout: 10000
+- assertVisible: "You can now log in with your email."
+- tapOn: "Log in"
+
+# De vuelta en el login con el email ya escrito
+- assertVisible:
+    id: "login_submit_button"
+- assertVisible: "ana@example.com"

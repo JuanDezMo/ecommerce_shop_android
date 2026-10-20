@@ -1,0 +1,15 @@
+appId: co.com.learningswift.shop
+---
+# Entra con el usuario de las variables EMAIL y PASSWORD y espera al catálogo
+- tapOn:
+    id: "login_email_input"
+- inputText: ${EMAIL}
+- tapOn:
+    id: "login_password_input"
+- inputText: ${PASSWORD}
+- tapOn:
+    id: "login_submit_button"
+- extendedWaitUntil:
+    visible:
+      id: "catalog_list"
+    timeout: 10000

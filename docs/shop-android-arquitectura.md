@@ -672,9 +672,9 @@ Una **prueba unitaria compara `TestTags` con el catálogo** (el equivalente de `
 | Errores en línea | Solo existen mientras hay error: no se pintan vacíos |
 | Insignia del carrito | `BadgedBox` con el total de unidades |
 
-### 10.4 Los flujos de Maestro se reutilizan
+### 10.4 Los flujos de Maestro
 
-Como los IDs y los textos de las alertas son los mismos, los flujos de [`maestro/`](../../ecommerce_shop_ios/maestro/) de iOS sirven en Android con cambios pequeños: el `appId`, los gestos de teclado y cómo se cierra el selector de cantidad. Conviene pasar el `appId` como variable de entorno en `run.sh` para tener **una sola carpeta de flujos**.
+Android tiene su propia carpeta [`maestro/`](../maestro/), copia de la de iOS con el `appId` de Android (decisión de la A9; sustituye a la de una sola carpeta). Las diferencias (teclado, volver atrás) y cómo ejecutarlos están en la [guía de Maestro para Android](guia-pruebas-maestro-android.md). Un cambio de comportamiento que cambie un flujo se hace en las dos carpetas el mismo día.
 
 ---
 
