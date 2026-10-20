@@ -1,11 +1,13 @@
 package co.com.learningswift.shop.data.remote.dto
 
 import co.com.learningswift.shop.core.network.BigDecimalSerializer
+import co.com.learningswift.shop.core.network.InstantSerializer
 import co.com.learningswift.shop.data.model.Order
 import co.com.learningswift.shop.data.model.OrderItem
 import co.com.learningswift.shop.data.model.PaymentMethod
 import co.com.learningswift.shop.data.model.Shipping
 import java.math.BigDecimal
+import java.time.Instant
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -16,7 +18,7 @@ data class OrderDto(
     val items: List<OrderItemDto>,
     @Serializable(with = BigDecimalSerializer::class) val total: BigDecimal,
     val shipping: ShippingDto,
-    val createdAt: String,
+    @Serializable(with = InstantSerializer::class) val createdAt: Instant,
 ) {
     fun toModel() = Order(id, status, paymentMethod, items.map { it.toModel() }, total, shipping.toModel(), createdAt)
 }

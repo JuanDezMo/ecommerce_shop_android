@@ -1,6 +1,7 @@
 package co.com.learningswift.shop.data.model
 
 import java.math.BigDecimal
+import java.time.Instant
 
 /** Una orden tal como la devuelve el backend: todo lo que se muestra de ella sale de aquí, no del carrito */
 data class Order(
@@ -10,8 +11,7 @@ data class Order(
     val items: List<OrderItem>,
     val total: BigDecimal,
     val shipping: Shipping,
-    /** Texto ISO-8601 tal como llega. Las fechas con hora se interpretan en la iteración de "My orders" */
-    val createdAt: String,
+    val createdAt: Instant,
 ) {
     val totalUnits: Int get() = items.sumOf { it.quantity }
 }

@@ -36,6 +36,11 @@ class AppContainer(
 
     val settings = SettingsRepository(store)
 
+    /** Tras cerrar sesión: el siguiente login abre Catalog. Las pilas de cada pestaña ya se pierden con el `NavController` de `MainTabs` */
+    fun resetNavigation() {
+        selectedTab.value = Tab.Catalog
+    }
+
     /** Para datos sensibles (por ejemplo, un token persistido): cifrado. Se crea al usarlo por primera vez, no al arrancar */
     val secureStore: KeyValueStore by lazy(secureStoreProvider)
     val authRepository = AuthRepository(api, session)

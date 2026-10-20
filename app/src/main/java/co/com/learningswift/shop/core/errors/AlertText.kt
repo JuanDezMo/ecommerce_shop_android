@@ -11,6 +11,19 @@ object AlertText {
         const val CANCEL = "Cancel"
     }
 
+    object LogOut {
+        const val TITLE = "Log out?"
+        const val MESSAGE = "Your cart will be emptied."
+        const val CONFIRM = "Log out"
+        const val CANCEL = "Cancel"
+    }
+
+    object OrderNotFound {
+        const val TITLE = "Order not found"
+        const val MESSAGE = "We couldn't find this order."
+        const val OK = "OK"
+    }
+
     object PlaceOrder {
         const val TITLE = "Place order?"
         const val CONFIRM = "Place order"

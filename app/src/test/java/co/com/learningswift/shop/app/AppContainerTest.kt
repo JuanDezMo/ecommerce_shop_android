@@ -22,4 +22,11 @@ class AppContainerTest {
         container.selectedTab.value = Tab.Cart
         assertEquals(Tab.Cart, container.selectedTab.value)
     }
+
+    @Test fun resetNavigationGoesBackToCatalog() {
+        val container = makeContainer()
+        container.selectedTab.value = Tab.Account
+        container.resetNavigation()
+        assertEquals(Tab.Catalog, container.selectedTab.value)
+    }
 }

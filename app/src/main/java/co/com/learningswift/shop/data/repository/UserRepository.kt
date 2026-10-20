@@ -17,4 +17,7 @@ class UserRepository(private val api: ApiClient) {
         )
         return dto.toModel()
     }
+
+    /** El usuario con sesión (`GET users/me`, con token). Un token vencido lo gestiona ApiClient: cierra la sesión */
+    suspend fun me(): User = api.get<UserDto>("users/me", authorized = true).toModel()
 }

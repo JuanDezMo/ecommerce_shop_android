@@ -1,6 +1,6 @@
 # Plan de iteraciones · App Android ShopLab
 
-Actualizado: 2026-10-19 · **Estado: aprobado. A0, A2, A3, A4, A5, A6 y A7 hechas; siguiente: A8.**
+Actualizado: 2026-10-19 · **Estado: aprobado. A0 a A8 hechas; siguiente: A9.**
 
 Plan de implementación de la app Android, iteración por iteración, para que cualquier desarrollador (también de perfil junior) pueda ejecutarlo sin conocer las conversaciones previas. Es el equivalente del [plan de iOS](../../ecommerce_shop_ios/docs/plan-iteraciones-ios.md), **recortado a lo que Android realmente necesita**: el comportamiento, los IDs, los tests y los flujos de Maestro ya existen y se reutilizan.
 
@@ -441,8 +441,8 @@ El proyecto base (`/Users/juandezmo/Documents/claude_projects/ecommerce_shop_and
 
 ### Actividades
 
-- [ ] `logout()`: vaciar el carrito y `session.end()`, **sin** aviso de expiración; la pantalla reinicia la navegación (pestaña Catalog y pilas vacías). Con sesión expirada no se reinicia.
-- [ ] "Order not found" con "OK" que vuelve a la pantalla anterior (`popBackStack()`).
+- [x] `logout()`: vaciar el carrito y `session.end()`, **sin** aviso de expiración; la pantalla reinicia la navegación (pestaña Catalog y pilas vacías). Con sesión expirada no se reinicia.
+- [x] "Order not found" con "OK" que vuelve a la pantalla anterior (`popBackStack()`).
 
 ### Tests
 
@@ -450,9 +450,17 @@ El proyecto base (`/Users/juandezmo/Documents/claude_projects/ecommerce_shop_and
 
 **Integración (`AccountIntegrationTest`, `OrdersIntegrationTest`):** `standard` → perfil; `logout()` → sesión cerrada sin aviso y carrito vacío; token expirado → `didExpire` y carrito conservado; `buyer` → órdenes 2 y 1 con totales `45.00` y `109.99` y unidades 1 y 3; `standard` → lista vacía; `buyer` abre la 1 (subtotales `59.99` y `50.00`, total `109.99`); `standard` abre la 1 y la 999 → `ORDER_NOT_FOUND`.
 
+### Trampas conocidas
+
+- `createdAt` es un `Instant` (`InstantSerializer`): un texto que no sea fecha falla la lectura de la respuesta.
+- Tras el logout solo sobrevivía `selectedTab` (las pilas se pierden con el `NavController`): `resetNavigation()` lo vuelve a Catalog.
+- Las rutas del detalle de orden son distintas por pestaña (`order/{id}` en carrito y `account_order/{id}` en cuenta).
+- Un `Row` con `SpaceBetween` necesita `fillMaxWidth()` para estirarse.
+- El token expirado en Account y "Order not found" no se prueban a mano hasta que exista el extra `testSessionToken` (A9): están cubiertos por los tests de integración.
+
 ### Criterios de aceptación
 
-- [ ] El tema cambia en vivo y se conserva; el logout vuelve al login sin aviso; una compra recién hecha aparece la primera en "My orders".
+- [x] El tema cambia en vivo y se conserva; el logout vuelve al login sin aviso; una compra recién hecha aparece la primera en "My orders".
 
 ---
 

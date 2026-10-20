@@ -4,8 +4,10 @@ import co.com.learningswift.shop.core.network.AppJson
 import co.com.learningswift.shop.data.model.PaymentMethod
 import co.com.learningswift.shop.data.remote.dto.OrderDto
 import java.math.BigDecimal
+import java.time.Instant
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class OrderTest {
     private val json = """
@@ -27,7 +29,7 @@ class OrderTest {
         assertEquals(PaymentMethod.CARD, order.paymentMethod)
         assertEquals(2, order.items.size)
         assertEquals("Bogotá", order.shipping.city)
-        assertEquals("2026-10-14T15:04:05Z", order.createdAt)
+        assertEquals(Instant.parse("2026-10-14T15:04:05Z"), order.createdAt)
     }
 
     @Test fun amountsKeepTheirExactValueAndTwoDecimals() {
@@ -44,5 +46,20 @@ class OrderTest {
     @Test fun theBackendMayReturnACountryTheAppDoesNotOffer() {
         val spain = AppJson.decodeFromString(OrderDto.serializer(), json.replace("\"CO\"", "\"ES\"")).toModel()
         assertEquals("ES", spain.shipping.country)
+    }
+
+    private fun createdAt(text: String) =
+        AppJson.decodeFromString(OrderDto.serializer(), json.replace("2026-10-14T15:04:05Z", text)).toModel().createdAt
+
+    @Test fun datesWithZeroToNineDecimalsKeepTheInstant() {
+        val base = Instant.parse("2026-10-14T15:04:05Z")
+        assertEquals(base, createdAt("2026-10-14T15:04:05Z"))
+        assertEquals(base.plusMillis(123), createdAt("2026-10-14T15:04:05.123Z"))
+        assertEquals(base.plusNanos(123_456_000), createdAt("2026-10-14T15:04:05.123456Z"))
+        assertEquals(base.plusNanos(123_456_789), createdAt("2026-10-14T15:04:05.123456789Z"))
+    }
+
+    @Test fun anInvalidDateMakesTheReadingFail() {
+        assertFailsWith<Exception> { createdAt("not-a-date") }
     }
 }

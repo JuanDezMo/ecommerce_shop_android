@@ -19,7 +19,10 @@ object Routes {
 
     const val ACCOUNT_GRAPH = "account_graph"
     const val ACCOUNT = "account"
+    const val ORDERS = "orders"
+    const val ACCOUNT_ORDER = "account_order/{$ORDER_ARG}"
 
     fun product(id: Long) = "product/$id"
     fun order(id: Long) = "order/$id"
+    fun accountOrder(id: Long) = "account_order/$id"
 }

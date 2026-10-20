@@ -176,6 +176,8 @@ Nota para Android: el selector de cantidad (`add_to_cart_quantity_stepper`, y el
 | `order_detail_total_text` | Total |
 | `order_detail_shipping_text` | Dirección de envío |
 
+Nota para Android: la dirección de envío (`order_detail_shipping_text`) es un solo texto con cuatro líneas (dirección, ciudad, código postal y país), separadas por saltos de línea. El país se muestra con su nombre en inglés si la app lo ofrece y, si no, con el código que devuelve el backend.
+
 ## Alertas y diálogos
 
 Las alertas nativas de iOS **no garantizan** que el ID de sus botones llegue a Appium (se verifica en la fase 0 de la app iOS). Por eso los textos son parte del contrato: iOS localiza las alertas por **título** y sus botones por **texto**. Android usa los IDs (`testTag` en los botones del diálogo), y iOS también los usará si la verificación sale bien.

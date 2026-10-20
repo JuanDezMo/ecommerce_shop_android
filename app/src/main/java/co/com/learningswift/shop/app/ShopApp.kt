@@ -11,6 +11,9 @@ import co.com.learningswift.shop.features.checkout.CheckoutScreen
 import co.com.learningswift.shop.features.checkout.CheckoutViewModel
 import co.com.learningswift.shop.features.confirmation.ConfirmationScreen
 import co.com.learningswift.shop.features.orders.OrderDetailScreen
+import co.com.learningswift.shop.features.orders.OrderDetailViewModel
+import co.com.learningswift.shop.features.orders.OrdersScreen
+import co.com.learningswift.shop.features.orders.OrdersViewModel
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import androidx.navigation.NavType
@@ -148,14 +151,28 @@ private fun MainTabs(container: AppContainer) {
                     Routes.ORDER,
                     arguments = listOf(navArgument(Routes.ORDER_ARG) { type = NavType.LongType }),
                 ) { entry ->
-                    OrderDetailScreen(entry.arguments!!.getLong(Routes.ORDER_ARG), onBack = { navController.popBackStack() })
+                    val orderId = entry.arguments!!.getLong(Routes.ORDER_ARG)
+                    val viewModel: OrderDetailViewModel = viewModel(factory = orderDetailViewModelFactory(container, orderId))
+                    OrderDetailScreen(viewModel, onBack = { navController.popBackStack() })
                 }
             }
             navigation(startDestination = Routes.ACCOUNT, route = Routes.ACCOUNT_GRAPH) {
                 composable(Routes.ACCOUNT) {
                     // Cada pantalla recibe SU ViewModel (no el contenedor): la factory saca de él lo que necesita
                     val viewModel: AccountViewModel = viewModel(factory = accountViewModelFactory(container))
-                    AccountScreen(viewModel)
+                    AccountScreen(viewModel, onOrders = { navController.navigate(Routes.ORDERS) })
+                }
+                composable(Routes.ORDERS) {
+                    val viewModel: OrdersViewModel = viewModel(factory = ordersViewModelFactory(container))
+                    OrdersScreen(viewModel, onOrderTap = { navController.navigate(Routes.accountOrder(it)) }, onBack = { navController.popBackStack() })
+                }
+                composable(
+                    Routes.ACCOUNT_ORDER,
+                    arguments = listOf(navArgument(Routes.ORDER_ARG) { type = NavType.LongType }),
+                ) { entry ->
+                    val orderId = entry.arguments!!.getLong(Routes.ORDER_ARG)
+                    val viewModel: OrderDetailViewModel = viewModel(factory = orderDetailViewModelFactory(container, orderId))
+                    OrderDetailScreen(viewModel, onBack = { navController.popBackStack() })
                 }
             }
         }

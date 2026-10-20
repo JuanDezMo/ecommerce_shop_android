@@ -122,6 +122,36 @@ object TestTags {
     }
 
     object Account {
+        const val NAME_TEXT = "account_name_text"
+        const val EMAIL_TEXT = "account_email_text"
+        const val PLAN_TEXT = "account_plan_text"
+        const val ORDERS_BUTTON = "account_orders_button"
         const val THEME_SEGMENTED = "account_theme_segmented"
+        const val LOGOUT_BUTTON = "account_logout_button"
+        const val LOGOUT_ALERT_CONFIRM_BUTTON = "account_logout_alert_confirm_button"
+        const val LOGOUT_ALERT_CANCEL_BUTTON = "account_logout_alert_cancel_button"
+    }
+
+    object Orders {
+        const val LIST = "orders_list"
+        const val EMPTY_TEXT = "orders_empty_text"
+
+        fun item(orderId: Long) = "orders_item_$orderId"
+        fun date(orderId: Long) = "orders_item_${orderId}_date_text"
+        fun total(orderId: Long) = "orders_item_${orderId}_total_text"
+        fun count(orderId: Long) = "orders_item_${orderId}_count_text"
+    }
+
+    object OrderDetail {
+        const val ID_TEXT = "order_detail_id_text"
+        const val STATUS_TEXT = "order_detail_status_text"
+        const val DATE_TEXT = "order_detail_date_text"
+        const val PAYMENT_TEXT = "order_detail_payment_text"
+        const val TOTAL_TEXT = "order_detail_total_text"
+        const val SHIPPING_TEXT = "order_detail_shipping_text"
+        const val NOT_FOUND_ALERT_OK_BUTTON = "order_detail_not_found_alert_ok_button"
+
+        fun item(productId: Long) = "order_detail_item_$productId"
+        fun subtotal(productId: Long) = "order_detail_item_${productId}_subtotal_text"
     }
 }

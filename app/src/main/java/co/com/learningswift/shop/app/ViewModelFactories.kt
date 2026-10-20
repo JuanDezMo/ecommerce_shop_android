@@ -7,12 +7,16 @@ import co.com.learningswift.shop.features.cart.CartViewModel
 import co.com.learningswift.shop.features.catalog.CatalogViewModel
 import co.com.learningswift.shop.features.checkout.CheckoutViewModel
 import co.com.learningswift.shop.features.login.LoginViewModel
+import co.com.learningswift.shop.features.orders.OrderDetailViewModel
+import co.com.learningswift.shop.features.orders.OrdersViewModel
 import co.com.learningswift.shop.features.productdetail.ProductDetailViewModel
 import co.com.learningswift.shop.features.register.RegisterViewModel
 
 /** Cada pantalla recibe SU ViewModel (no el contenedor): la fábrica saca de él lo que necesita. Todas aquí, en un solo archivo */
 fun accountViewModelFactory(container: AppContainer) = viewModelFactory {
-    initializer { AccountViewModel(container.settings) }
+    initializer {
+        AccountViewModel(container.settings, container.userRepository, container.cart, container.session, container::resetNavigation)
+    }
 }
 
 fun loginViewModelFactory(container: AppContainer) = viewModelFactory {
@@ -37,4 +41,12 @@ fun cartViewModelFactory(container: AppContainer) = viewModelFactory {
 
 fun checkoutViewModelFactory(container: AppContainer) = viewModelFactory {
     initializer { CheckoutViewModel(container.cart, container.orderRepository) }
+}
+
+fun ordersViewModelFactory(container: AppContainer) = viewModelFactory {
+    initializer { OrdersViewModel(container.orderRepository) }
+}
+
+fun orderDetailViewModelFactory(container: AppContainer, orderId: Long) = viewModelFactory {
+    initializer { OrderDetailViewModel(container.orderRepository, orderId) }
 }

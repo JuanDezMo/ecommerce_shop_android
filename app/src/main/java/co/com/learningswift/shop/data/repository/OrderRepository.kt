@@ -16,4 +16,10 @@ class OrderRepository(private val api: ApiClient) {
         val dto: OrderDto = api.post("orders", CreateOrderRequestDto.from(items, form), authorized = true)
         return dto.toModel()
     }
+
+    /** Las órdenes del usuario, la más reciente primero (el orden lo da el backend) */
+    suspend fun orders(): List<Order> = api.get<List<OrderDto>>("orders", authorized = true).map { it.toModel() }
+
+    /** Una orden. 404 `ORDER_NOT_FOUND` si no existe o es de otro usuario */
+    suspend fun order(id: Long): Order = api.get<OrderDto>("orders/$id", authorized = true).toModel()
 }

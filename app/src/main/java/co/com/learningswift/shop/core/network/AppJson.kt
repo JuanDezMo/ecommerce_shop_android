@@ -32,3 +32,13 @@ object BigDecimalSerializer : KSerializer<BigDecimal> {
         (encoder as JsonEncoder).encodeJsonElement(JsonUnquotedLiteral(value.toPlainString()))
     }
 }
+
+/**
+ * Fechas con hora del backend (`createdAt`): ISO-8601 en UTC con 0 a 9 decimales. `Instant.parse` las acepta todas
+ * y LANZA si el texto no es una fecha: la respuesta entera falla y `ApiClient` la trata como error desconocido.
+ */
+object InstantSerializer : KSerializer<java.time.Instant> {
+    override val descriptor = PrimitiveSerialDescriptor("Instant", PrimitiveKind.STRING)
+    override fun deserialize(decoder: Decoder): java.time.Instant = java.time.Instant.parse(decoder.decodeString())
+    override fun serialize(encoder: Encoder, value: java.time.Instant) = encoder.encodeString(value.toString())
+}

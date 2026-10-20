@@ -82,7 +82,7 @@ private val previewOrder = Order(
     ),
     total = BigDecimal("144.98"),
     shipping = Shipping("Calle 10 #20-30", "Bogotá", "110111", "CO"),
-    createdAt = "2026-10-14T15:04:05Z",
+    createdAt = java.time.Instant.parse("2026-10-14T15:04:05Z"),
 )
 
 @Preview(name = "Confirmación clara", showBackground = true, heightDp = 800)
